@@ -11,8 +11,7 @@ the #1 score for Pool 1, the #2 for Pool 2.
 1. `pip install -r requirements.txt`
 2. Get a free key at https://the-odds-api.com (500 credits/month) and set it:
    `setx ODDS_API_KEY your_key` (new shells) — or paste it in the app sidebar.
-3. **Edit `config.yaml` → `pool:` with your pools' real point values.**
-   The recommendation depends on the exact-to-outcome points ratio.
+3. **Check `config.yaml` → `pool.scoring`** — it encodes the pools' three-tier scoring (exact / goal-difference-or-draw / winner) with higher stakes in later rounds. Edit if your pool's values change.
 
 ## Daily use
 

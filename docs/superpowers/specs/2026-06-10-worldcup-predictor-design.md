@@ -7,10 +7,13 @@
 ## Goal
 
 A Streamlit app that recommends exact-score predictions for FIFA World Cup 2026
-matches, optimized to win two prediction pools. Both pools use the same scoring
-rules: full points for the exact score, partial points for the correct outcome
-(win/draw/win). Picks are submitted before each match, so the app runs as a
-daily companion using the freshest betting odds.
+matches, optimized to win two prediction pools. Both pools use identical
+three-tier, stage-dependent scoring: full points for the exact score; partial
+points for the right goal difference (or any draw when a draw was predicted);
+fewer points for the right match winner only. Point values increase in later
+rounds (group → Round of 32/16 → quarter-finals onward). Picks are submitted
+before each match, so the app runs as a daily companion using the freshest
+betting odds.
 
 For each match the app shows two picks from one expected-points ranking:
 the **#1 score for Pool 1** and the **#2 score for Pool 2**. Submitting two
@@ -84,12 +87,14 @@ correction (fixed ρ) repairs plain-Poisson's underestimation of low-scoring
 draws. Matrix truncated at 10 goals per side. Missing markets simply drop out
 of the constraint set; 1X2 alone is sufficient (with a ~2.5 total-goals prior).
 
-**3. Picks (`picks.py`).** For each candidate score (i, j):
-`EP = P(exact i-j) × pts_exact + (P(outcome of i-j) − P(exact i-j)) × pts_outcome`,
-point values from `config.yaml`. Rank all scores by EP; #1 → Pool 1,
-#2 → Pool 2. Note the ranking depends on the exact-to-outcome points ratio,
-so the user must enter the pools' real point values in `config.yaml`
-(default until then: 3 exact / 1 outcome, a common polla scheme).
+**3. Picks (`picks.py`).** For each candidate score (i, j), expected points use
+three tiers whose values depend on the match stage (group / R32–R16 / QF+,
+read from `config.yaml → pool.scoring`):
+`EP = P(i,j)·exact + (P(gd=i−j) − P(i,j))·gd + (P(outcome) − P(gd=i−j))·winner`,
+where P(gd=i−j) is the probability of that exact goal difference and the winner
+tier is omitted for draw predictions (gd=0 already captures the draw outcome).
+Rank all scores by EP; #1 → Pool 1, #2 → Pool 2. Ties broken by higher exact
+probability, then fewer total goals.
 
 **Knockouts:** bookmaker 1X2 prices the 90-minute result (draw included),
 which is also what the pools score by default. The config validates this ('90min'); post-extra-time scoring is rejected with a clear error and would need a small extension if a pool turns out to differ.

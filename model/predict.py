@@ -34,10 +34,23 @@ def match_event(fixture, events):
     return None, False
 
 
+def stage_points(stage, cfg):
+    """Map a fixture stage label to its scoring tier points."""
+    s = cfg["pool"]["scoring"]
+    if stage.startswith("Group"):
+        return s["group"]
+    try:
+        rnd = int(stage.rsplit("R", 1)[1])   # "Knockout R4" -> 4
+    except (IndexError, ValueError):
+        return s["qf_plus"]
+    return s["r32_r16"] if rnd <= 5 else s["qf_plus"]
+
+
 def _finish(pred, constraints, cfg):
     lh, la = poisson.solve_rates(constraints)
     m = poisson.score_matrix(lh, la)
-    p = picks.top_picks(m, cfg["pool"]["pts_exact"], cfg["pool"]["pts_outcome"])
+    pts = stage_points(pred.fixture["stage"], cfg)
+    p = picks.top_picks(m, pts)
     pred.lam_home, pred.lam_away = lh, la
     pred.probs = constraints["1x2"]
     pred.pool1, pred.pool2, pred.ep_table = p["pool1"], p["pool2"], p["table"]

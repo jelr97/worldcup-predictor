@@ -1,8 +1,11 @@
 pool:
-  # IMPORTANT: user must replace with the pools' real point values.
-  # The ranking depends on the exact-to-outcome ratio.
-  pts_exact: 3      # total points for predicting the exact score
-  pts_outcome: 1    # points for right outcome, wrong score
+  # Three-tier polla scoring, varying by stage. Per match a prediction earns
+  # one tier: exact score / right goal difference (or any draw if a draw was
+  # predicted) / right winner only.
+  scoring:
+    group:   {exact: 5, gd: 3, winner: 2}
+    r32_r16: {exact: 8, gd: 5, winner: 3}
+    qf_plus: {exact: 11, gd: 7, winner: 5}
 knockout_scoring: 90min   # only '90min' supported in v1
 odds:
   sport_key: soccer_fifa_world_cup   # verify in Task 14 against /v4/sports

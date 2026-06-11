@@ -3,7 +3,9 @@ import pytest
 from model.predict import match_event, predict_match
 
 CFG = {
-    "pool": {"pts_exact": 3, "pts_outcome": 1},
+    "pool": {"scoring": {"group": {"exact": 5, "gd": 3, "winner": 2},
+                         "r32_r16": {"exact": 8, "gd": 5, "winner": 3},
+                         "qf_plus": {"exact": 11, "gd": 7, "winner": 5}}},
     "elo": {"disagreement_threshold": 0.15},
 }
 FIXTURE = {"match_id": 1, "stage": "Group A", "home": "Mexico",
@@ -47,3 +49,12 @@ def test_no_data_at_all():
     p = predict_match(FIXTURE, None, None, False, {}, CFG)
     assert p.source == "none"
     assert p.pool1 is None
+
+
+def test_stage_points():
+    from model.predict import stage_points
+    assert stage_points("Group A", CFG)["exact"] == 5
+    assert stage_points("Knockout R4", CFG)["exact"] == 8
+    assert stage_points("Knockout R5", CFG)["exact"] == 8
+    assert stage_points("Knockout R6", CFG)["exact"] == 11
+    assert stage_points("Knockout R8", CFG)["exact"] == 11

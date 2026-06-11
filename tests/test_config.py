@@ -4,7 +4,9 @@ from config import load_config
 
 def test_load_config_defaults():
     cfg = load_config()
-    assert cfg["pool"]["pts_exact"] > cfg["pool"]["pts_outcome"] > 0
+    for tier in ("group", "r32_r16", "qf_plus"):
+        s = cfg["pool"]["scoring"][tier]
+        assert s["exact"] > s["gd"] > s["winner"] > 0
     assert cfg["odds"]["sport_key"]
     assert cfg["knockout_scoring"] == "90min"
 
