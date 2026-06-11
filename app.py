@@ -13,8 +13,17 @@ cfg = load_config()
 
 st.title("⚽ World Cup 2026 — Pool Predictor")
 
+
+def _secrets_api_key():
+    try:
+        return st.secrets.get("ODDS_API_KEY", "")
+    except Exception:  # no secrets.toml configured — normal for local runs
+        return ""
+
+
 with st.sidebar:
-    api_key = get_api_key() or st.text_input("The Odds API key", type="password")
+    api_key = (get_api_key() or _secrets_api_key()
+               or st.text_input("The Odds API key", type="password"))
     window = st.slider("Show matches in next (hours)", 24, 96,
                        cfg["display"]["upcoming_window_hours"], step=24)
     force = st.button("🔄 Refresh odds now")

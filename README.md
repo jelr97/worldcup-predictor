@@ -23,6 +23,13 @@ Check the day's matches, hit "Refresh odds now" near kickoff for the freshest
 prices, submit Pool 1 / Pool 2 picks. Odds are cached in `data/cache/` so
 re-opening the app costs no API quota.
 
+## Phone access (Streamlit Community Cloud)
+
+The app is deployed from this repo at share.streamlit.io. The API key lives in
+the app's **Settings → Secrets** as `ODDS_API_KEY = "..."` (never committed).
+Keep viewing restricted (Settings → Sharing) — protects the API quota and the
+picks. On iPhone: open the app URL in Safari → Share → **Add to Home Screen**.
+
 ## Maintenance scripts
 
 - `python scripts/build_fixtures.py` — rebuild the match schedule
