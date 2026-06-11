@@ -8,6 +8,7 @@ def test_aliases():
     assert same_team("Côte d'Ivoire", "Ivory Coast")
     assert same_team("Cabo Verde", "Cape Verde")
     assert same_team("Congo DR", "DR Congo")
+    assert same_team("Bosnia & Herzegovina", "Bosnia and Herzegovina")
 
 
 def test_accents_and_case():
