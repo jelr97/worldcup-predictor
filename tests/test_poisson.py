@@ -55,3 +55,10 @@ def test_round_trip_1x2_only():
     lh, la = solve_rates({"1x2": outcome_probs(m), "totals": [], "btts": None})
     assert lh == pytest.approx(1.5, abs=0.15)
     assert la == pytest.approx(1.0, abs=0.15)
+
+
+def test_solver_floors_degenerate_rates():
+    lh, la = solve_rates({"1x2": {"home": 0.97, "draw": 0.02, "away": 0.01},
+                          "totals": [], "btts": None})
+    assert la >= 0.01
+    assert lh > 1.0

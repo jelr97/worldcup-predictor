@@ -1,4 +1,5 @@
 """Dixon-Coles-adjusted Poisson scoreline model."""
+import warnings
 import numpy as np
 from scipy.optimize import minimize
 from scipy.stats import poisson as _poisson
@@ -69,5 +70,7 @@ def solve_rates(constraints, total_prior=2.5, rho=RHO):
     x0 = np.log([total_prior * share, total_prior * (1 - share)])
     res = minimize(loss, x0, method="Nelder-Mead",
                    options={"xatol": 1e-4, "fatol": 1e-10, "maxiter": 2000})
+    if not res.success:
+        warnings.warn(f"solve_rates did not converge: {res.message}")
     lh, la = np.exp(res.x)
-    return float(lh), float(la)
+    return max(float(lh), 0.01), max(float(la), 0.01)
