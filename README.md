@@ -1,0 +1,37 @@
+# World Cup 2026 Pool Predictor
+
+Streamlit app that converts live bookmaker odds into exact-score picks for two
+prediction pools. For each upcoming match it de-vigs and aggregates bookmaker
+odds (Pinnacle-weighted), solves a Dixon-Coles Poisson model to match the
+market, and recommends the scorelines that maximize expected pool points:
+the #1 score for Pool 1, the #2 for Pool 2.
+
+## Setup
+
+1. `pip install -r requirements.txt`
+2. Get a free key at https://the-odds-api.com (500 credits/month) and set it:
+   `setx ODDS_API_KEY your_key` (new shells) — or paste it in the app sidebar.
+3. **Edit `config.yaml` → `pool:` with your pools' real point values.**
+   The recommendation depends on the exact-to-outcome points ratio.
+
+## Daily use
+
+```
+streamlit run app.py
+```
+
+Check the day's matches, hit "Refresh odds now" near kickoff for the freshest
+prices, submit Pool 1 / Pool 2 picks. Odds are cached in `data/cache/` so
+re-opening the app costs no API quota.
+
+## Maintenance scripts
+
+- `python scripts/build_fixtures.py` — rebuild the match schedule
+  (re-run when knockout pairings are decided).
+- `python scripts/snapshot_elo.py` — refresh Elo ratings (every few days).
+
+## Tests
+
+```
+python -m pytest
+```
