@@ -14,15 +14,22 @@ cfg = load_config()
 st.title("⚽ World Cup 2026 — Pool Predictor")
 
 
-def _secrets_api_key():
+def _secret(name, default=""):
     try:
-        return st.secrets.get("ODDS_API_KEY", "")
+        return st.secrets.get(name, default)
     except Exception:  # no secrets.toml configured — normal for local runs
-        return ""
+        return default
 
+
+# PIN gate: when APP_PIN is set (cloud deployment from a public repo), block
+# picks and API usage until the right code is entered.
+_pin = _secret("APP_PIN")
+if _pin and st.sidebar.text_input("PIN", type="password") != _pin:
+    st.info("🔒 Enter the PIN in the sidebar to load picks.")
+    st.stop()
 
 with st.sidebar:
-    api_key = (get_api_key() or _secrets_api_key()
+    api_key = (get_api_key() or _secret("ODDS_API_KEY")
                or st.text_input("The Odds API key", type="password"))
     window = st.slider("Show matches in next (hours)", 24, 96,
                        cfg["display"]["upcoming_window_hours"], step=24)
