@@ -39,3 +39,23 @@ def test_no_h2h_returns_none(sample_event):
     for b in sample_event["bookmakers"]:
         b["markets"] = [m for m in b["markets"] if m["key"] != "h2h"]
     assert build_constraints(sample_event) is None
+
+
+def test_string_point_skipped(sample_event):
+    sample_event["bookmakers"][0]["markets"][1]["outcomes"] = [
+        {"name": "Over", "point": "2.5", "price": 2.10},
+        {"name": "Under", "point": "2.5", "price": 1.78},
+    ]
+    c = build_constraints(sample_event)
+    assert dict(c["totals"]).keys() == {2.5}  # only bet365's numeric line
+
+
+def test_lowercase_draw_matched(sample_event):
+    for b in sample_event["bookmakers"]:
+        for m in b["markets"]:
+            if m["key"] == "h2h":
+                for o in m["outcomes"]:
+                    if o["name"] == "Draw":
+                        o["name"] = "draw"
+    c = build_constraints(sample_event)
+    assert c is not None and c["books_count"] == 2

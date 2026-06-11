@@ -6,7 +6,7 @@ from model import implied
 def _h2h_odds(market, home, away):
     out = {}
     for o in market.get("outcomes", []):
-        if o["name"] == "Draw":
+        if o["name"].lower() == "draw":
             out["draw"] = o["price"]
         elif same_team(o["name"], home):
             out["home"] = o["price"]
@@ -25,7 +25,7 @@ def _totals_odds(market):
     for o in market.get("outcomes", []):
         line = o.get("point")
         side = o["name"].lower()
-        if line is None or line * 2 % 2 != 1:
+        if not isinstance(line, (int, float)) or line * 2 % 2 != 1:
             continue
         if side in ("over", "under"):
             lines.setdefault(line, {})[side] = o["price"]
