@@ -73,6 +73,22 @@ def test_xss_home_name_is_escaped():
     assert html_mod.escape(malicious) in out or "&lt;script&gt;" in out
 
 
+def test_xss_flag_home_is_escaped():
+    malicious_flag = '<script>bad</script>'
+    p = _make_pred()
+    out = render_card(p, malicious_flag, "")
+    assert "<script>" not in out
+    assert "&lt;script&gt;" in out
+
+
+def test_xss_flag_away_is_escaped():
+    malicious_flag = '<img src=x onerror=alert(1)>'
+    p = _make_pred()
+    out = render_card(p, "", malicious_flag)
+    assert "<img" not in out
+    assert "&lt;img" in out
+
+
 # ── source == "none" ──────────────────────────────────────────────────────────
 
 def test_source_none_shows_note():

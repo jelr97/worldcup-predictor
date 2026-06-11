@@ -29,6 +29,8 @@ def render_card(p: MatchPrediction, flag_home: str, flag_away: str) -> str:
     f = p.fixture
     home = html.escape(f["home"])
     away = html.escape(f["away"])
+    flag_home = html.escape(flag_home)
+    flag_away = html.escape(flag_away)
 
     # ── title ─────────────────────────────────────────────────────────────────
     title = (
