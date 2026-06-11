@@ -1,0 +1,16 @@
+{
+  "id": "abc123",
+  "home_team": "Mexico",
+  "away_team": "South Africa",
+  "bookmakers": [
+    {"key": "pinnacle", "title": "Pinnacle", "markets": [
+      {"key": "btts", "outcomes": [
+        {"name": "Yes", "price": 2.4},
+        {"name": "No", "price": 1.55}]},
+      {"key": "alternate_totals", "outcomes": [
+        {"name": "Over", "point": 1.5, "price": 1.45},
+        {"name": "Under", "point": 1.5, "price": 2.75},
+        {"name": "Over", "point": 3.5, "price": 3.6},
+        {"name": "Under", "point": 3.5, "price": 1.28}]}]}
+  ]
+}

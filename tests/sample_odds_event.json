@@ -1,0 +1,25 @@
+{
+  "id": "abc123",
+  "sport_key": "soccer_fifa_world_cup",
+  "commence_time": "2026-06-11T19:00:00Z",
+  "home_team": "Mexico",
+  "away_team": "South Africa",
+  "bookmakers": [
+    {"key": "pinnacle", "title": "Pinnacle", "markets": [
+      {"key": "h2h", "outcomes": [
+        {"name": "Mexico", "price": 1.65},
+        {"name": "Draw", "price": 3.9},
+        {"name": "South Africa", "price": 5.8}]},
+      {"key": "totals", "outcomes": [
+        {"name": "Over", "point": 2.5, "price": 2.10},
+        {"name": "Under", "point": 2.5, "price": 1.78}]}]},
+    {"key": "bet365", "title": "Bet365", "markets": [
+      {"key": "h2h", "outcomes": [
+        {"name": "Mexico", "price": 1.62},
+        {"name": "Draw", "price": 4.0},
+        {"name": "South Africa", "price": 6.0}]},
+      {"key": "totals", "outcomes": [
+        {"name": "Over", "point": 2.5, "price": 2.05},
+        {"name": "Under", "point": 2.5, "price": 1.80}]}]}
+  ]
+}
