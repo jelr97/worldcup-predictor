@@ -16,11 +16,14 @@ def aggregate(per_book):
 
     Median across books; when Pinnacle quotes the match:
     0.5 * pinnacle + 0.5 * median(other books). Renormalized.
+    Books are aggregated over their shared outcome keys.
     """
     per_book = {b: p for b, p in per_book.items() if p}
     if not per_book:
         return None
-    keys = list(next(iter(per_book.values())).keys())
+    keys = set.intersection(*[set(p) for p in per_book.values()])
+    if not keys:
+        return None
     pinn = per_book.get("pinnacle")
     others = {b: p for b, p in per_book.items() if b != "pinnacle"}
     med = ({k: statistics.median(p[k] for p in others.values()) for k in keys}
@@ -28,6 +31,8 @@ def aggregate(per_book):
     if pinn and med:
         probs = {k: 0.5 * pinn[k] + 0.5 * med[k] for k in keys}
     else:
-        probs = pinn or med
+        probs = {k: (pinn or med)[k] for k in keys}
     total = sum(probs.values())
+    if total <= 0:
+        return None
     return {k: v / total for k, v in probs.items()}

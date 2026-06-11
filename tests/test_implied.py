@@ -39,3 +39,18 @@ def test_aggregate_pinnacle_weighted():
 def test_aggregate_empty():
     assert aggregate({}) is None
     assert aggregate({"a": None}) is None
+
+
+def test_aggregate_mismatched_keys_uses_shared():
+    books = {
+        "a": {"home": 0.50, "draw": 0.30, "away": 0.20},
+        "b": {"home": 0.60, "away": 0.40},
+    }
+    agg = aggregate(books)
+    assert set(agg) == {"home", "away"}
+    assert sum(agg.values()) == pytest.approx(1.0)
+
+
+def test_aggregate_pinnacle_only():
+    agg = aggregate({"pinnacle": {"home": 0.6, "draw": 0.25, "away": 0.15}})
+    assert agg["home"] == pytest.approx(0.6)
