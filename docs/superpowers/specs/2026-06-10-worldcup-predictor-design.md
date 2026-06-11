@@ -56,7 +56,10 @@ the repo.
    spot-checked against FIFA's site).
 2. Fetches odds from The Odds API for all upcoming World Cup matches in one
    request. Markets: 1X2 (`h2h`), totals, both-teams-to-score, alternate
-   totals. Regions: US + UK + EU. Free tier (500 credits/month) is ample.
+   totals (the last two via per-event calls, only for matches within 24h of
+   kickoff). Regions: UK + EU — adding US would roughly double credit burn
+   and push past the free tier's 500/month; Pinnacle quotes in the EU
+   region, so the sharp-book signal is kept.
 3. Response cached to `data/cache/` with timestamp; the app reuses the cache
    on reload. A "Refresh odds" button forces a new fetch.
 4. Elo ratings fetched (and cached) from eloratings.net.
@@ -93,9 +96,10 @@ which is also what the pools score by default. A config flag switches to
 post-extra-time scoring if a pool turns out to differ.
 
 **Elo (v1, `elo.py`):** two uses — (a) fallback when a match is missing from
-the odds feed: the Elo rating difference maps to an expected goal difference
-(standard World Football Elo conversion), combined with a 2.5 total-goals
-prior to give λs; pick labeled "model-only (no market odds)"; (b) sanity check: flag matches where Elo and market
+the odds feed: the Elo win expectancy is split into win/draw/loss
+probabilities (draw share shrinking as the matchup gets more lopsided) and
+fed through the same Poisson solver with a 2.5 total-goals prior to give λs;
+pick labeled "model-only (no market odds)"; (b) sanity check: flag matches where Elo and market
 disagree sharply (possible stale odds).
 
 ## Error handling
