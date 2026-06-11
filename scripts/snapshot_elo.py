@@ -28,6 +28,7 @@ def fetch(url):
             "table (at least the 48 WC teams) into data/elo_snapshot.csv with "
             "header 'team,rating'."
         )
+    r.encoding = "utf-8"
     return r.text
 
 
