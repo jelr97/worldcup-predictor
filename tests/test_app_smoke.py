@@ -14,8 +14,16 @@ def test_pin_gate_blocks_until_correct(monkeypatch):
     at.secrets["APP_PIN"] = "2026"
     at.run(timeout=60)
     assert not at.exception
-    assert not at.subheader  # no match cards before the PIN
-    at.sidebar.text_input[0].set_value("2026")
+    # Before unlocking: no cards (the main page has only title + lock + pin input)
+    # Cards rendered via st.markdown — assert none contain "POOL 1"
+    assert not any("POOL 1" in (m.value or "") for m in at.markdown)
+    # Enter the correct PIN via the main page text_input (not sidebar)
+    at.text_input[0].set_value("2026")
     at.run(timeout=60)
     assert not at.exception
-    assert at.subheader  # picks render after the PIN
+    # After unlocking via rerun, session state is set; run again to see cards
+    # AppTest may need another run after the rerun triggered inside the app
+    at.run(timeout=60)
+    assert not at.exception
+    # Cards should now be present — any markdown element contains "POOL 1"
+    assert any("POOL 1" in (m.value or "") for m in at.markdown)

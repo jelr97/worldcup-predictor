@@ -5,10 +5,12 @@ import streamlit as st
 from config import get_api_key, load_config
 from data.elo import load_ratings
 from data.fixtures import load_fixtures, upcoming
+from data.flags import flag
 from data.odds_api import OddsClient
 from model.predict import match_event, predict_upcoming
+from ui import render_card
 
-st.set_page_config(page_title="World Cup Predictor", page_icon="⚽", layout="wide")
+st.set_page_config(page_title="World Cup Predictor", page_icon="⚽", layout="centered")
 cfg = load_config()
 
 st.title("⚽ World Cup 2026 — Pool Predictor")
@@ -21,26 +23,55 @@ def _secret(name, default=""):
         return default
 
 
-# PIN gate: when APP_PIN is set (cloud deployment from a public repo), block
-# picks and API usage until the right code is entered.
+# ── PIN gate ──────────────────────────────────────────────────────────────────
+# When APP_PIN is set (cloud deployment), block everything until the correct
+# code is entered on the main page.  No sidebar is used at any point.
 _pin = _secret("APP_PIN")
-if _pin and st.sidebar.text_input("PIN", type="password") != _pin:
-    st.info("🔒 Enter the PIN in the sidebar to load picks.")
-    st.stop()
+if _pin:
+    if not st.session_state.get("pin_ok"):
+        st.markdown("## 🔒")
+        entered = st.text_input("PIN", type="password")
+        if entered and entered != _pin:
+            st.error("Wrong PIN")
+        if entered == _pin:
+            st.session_state["pin_ok"] = True
+            st.rerun()
+        st.stop()
 
-with st.sidebar:
-    api_key = (get_api_key() or _secret("ODDS_API_KEY")
-               or st.text_input("The Odds API key", type="password"))
-    window = st.slider("Show matches in next (hours)", 24, 96,
-                       cfg["display"]["upcoming_window_hours"], step=24)
-    force = st.button("🔄 Refresh odds now")
+# ── API key ───────────────────────────────────────────────────────────────────
+_odds_key = (get_api_key()
+             or _secret("ODDS_API_KEY")
+             or st.text_input("The Odds API key", type="password"))
+api_key = _odds_key if _odds_key else None
 
+# ── Control row: window radio + refresh button ────────────────────────────────
+_default_hours = cfg["display"]["upcoming_window_hours"]
+_window_map = {"Today": 24, "2 days": 48, "4 days": 96}
+_default_label = {24: "Today", 48: "2 days", 96: "4 days"}.get(_default_hours, "2 days")
+
+col_radio, col_btn = st.columns([4, 1])
+with col_radio:
+    window_label = st.radio(
+        "Window",
+        options=list(_window_map.keys()),
+        index=list(_window_map.keys()).index(_default_label),
+        horizontal=True,
+        label_visibility="collapsed",
+    )
+with col_btn:
+    force = st.button("🔄 Refresh")
+
+window = _window_map[window_label]
+
+# ── Load fixtures and Elo ─────────────────────────────────────────────────────
 fixtures = load_fixtures()
 window_fx = upcoming(fixtures, window_hours=window)
 elo = load_ratings()
 
+# ── Fetch odds ────────────────────────────────────────────────────────────────
 events, age = None, None
 extras = {}
+client = None
 if api_key:
     client = OddsClient(api_key, cfg["odds"]["sport_key"],
                         tuple(cfg["odds"]["regions"]))
@@ -53,12 +84,8 @@ if api_key:
             if e and f["kickoff_utc"] <= horizon:
                 extras[e["id"]], _ = client.get_event_extras(
                     e["id"], cfg["odds"]["cache_max_age_hours"], force=force)
-    if client.quota_remaining:
-        st.sidebar.caption(f"API quota remaining: {client.quota_remaining}")
     if events is None:
         st.error("Could not fetch odds and no cache exists — Elo-only predictions.")
-else:
-    st.sidebar.warning("No API key — Elo-only predictions.")
 
 if age and age > cfg["odds"]["cache_max_age_hours"]:
     st.warning(f"⚠️ Odds are {age:.0f} hours old (API unreachable — using cache).")
@@ -66,33 +93,26 @@ if age and age > cfg["odds"]["cache_max_age_hours"]:
 if not window_fx:
     st.info("No matches in the selected window.")
 
+# ── Render match cards ────────────────────────────────────────────────────────
 for p in predict_upcoming(window_fx, events, extras, elo, cfg, odds_age=age):
     f = p.fixture
-    st.subheader(f'{f["home"]} vs {f["away"]}')
-    st.caption(f'{f["stage"]} · {f["kickoff_et"].strftime("%a %b %d, %I:%M %p ET")}'
-               f' · {f.get("venue", "")}')
-    if p.source == "none":
-        st.error(p.note)
-        st.divider()
-        continue
-    c1, c2, c3, c4, c5 = st.columns(5)
-    c1.metric(f'{f["home"]} win', f'{p.probs["home"]:.0%}')
-    c2.metric("Draw", f'{p.probs["draw"]:.0%}')
-    c3.metric(f'{f["away"]} win', f'{p.probs["away"]:.0%}')
-    c4.metric("Pool 1 pick", p.pool1["score"])
-    c5.metric("Pool 2 pick", p.pool2["score"])
-    tags = []
-    if p.source == "market":
-        tags.append(f"{p.books_count} bookmakers")
-    if p.source == "elo":
-        tags.append("🟡 " + p.note)
-    if p.elo_disagrees:
-        tags.append("⚠️ market and Elo disagree — double-check this one")
-    if tags:
-        st.caption(" · ".join(tags))
+    st.markdown(
+        render_card(p, flag(f["home"]), flag(f["away"])),
+        unsafe_allow_html=True,
+    )
     with st.expander("Top 5 scores by expected points"):
         st.dataframe(
             [{"Score": r["score"], "P(exact)": f'{r["p_exact"]:.1%}',
               "Expected points": round(r["ep"], 3)} for r in p.ep_table],
-            hide_index=True)
-    st.divider()
+            hide_index=True,
+        )
+
+# ── Footer ────────────────────────────────────────────────────────────────────
+if client is not None:
+    parts = []
+    if client.quota_remaining is not None:
+        parts.append(f"quota: {client.quota_remaining}")
+    if age is not None:
+        parts.append(f"odds {age:.1f}h old")
+    if parts:
+        st.caption(" · ".join(parts))
