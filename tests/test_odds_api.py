@@ -39,3 +39,9 @@ def test_no_cache_no_network_returns_none(tmp_path, monkeypatch):
                         lambda *a, **k: (_ for _ in ()).throw(requests.ConnectionError()))
     data, age = c.get_main_odds()
     assert data is None and age is None
+
+
+def test_corrupted_cache_is_ignored(tmp_path):
+    c = make_client(tmp_path)
+    (tmp_path / "main.json").write_text("{truncated", encoding="utf-8")
+    assert c.load_cache("main") == (None, None)

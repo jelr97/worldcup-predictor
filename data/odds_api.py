@@ -36,7 +36,10 @@ class OddsClient:
         p = self.cache_dir / f"{name}.json"
         if not p.exists():
             return None, None
-        payload = json.loads(p.read_text(encoding="utf-8"))
+        try:
+            payload = json.loads(p.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            return None, None
         age_h = (datetime.now(timezone.utc)
                  - datetime.fromisoformat(payload["fetched_at"])).total_seconds() / 3600
         self.quota_remaining = self.quota_remaining or payload.get("quota_remaining")
