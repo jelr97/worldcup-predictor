@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from model.poisson import outcome_probs, prob_btts, prob_over, score_matrix
+from model.poisson import solve_rates
 
 
 def test_matrix_is_distribution():
@@ -32,3 +33,25 @@ def test_over_and_btts():
     assert prob_over(m, 2.5) == pytest.approx(float(m[g >= 3].sum()))
     assert prob_btts(m) == pytest.approx(float(m[1:, 1:].sum()))
     assert 0 < prob_over(m, 2.5) < 1
+
+
+def _constraints_from(lh, la):
+    m = score_matrix(lh, la)
+    return {
+        "1x2": outcome_probs(m),
+        "totals": [(2.5, prob_over(m, 2.5))],
+        "btts": prob_btts(m),
+    }
+
+
+def test_round_trip_full_constraints():
+    lh, la = solve_rates(_constraints_from(1.8, 0.9))
+    assert lh == pytest.approx(1.8, abs=0.05)
+    assert la == pytest.approx(0.9, abs=0.05)
+
+
+def test_round_trip_1x2_only():
+    m = score_matrix(1.5, 1.0)
+    lh, la = solve_rates({"1x2": outcome_probs(m), "totals": [], "btts": None})
+    assert lh == pytest.approx(1.5, abs=0.15)
+    assert la == pytest.approx(1.0, abs=0.15)

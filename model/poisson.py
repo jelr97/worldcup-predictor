@@ -28,9 +28,46 @@ def outcome_probs(m):
 
 
 def prob_over(m, line):
+    """P(total goals > line). Use half-integer lines (X.5) only: for integer
+    lines the push mass (total == line) is excluded, not redistributed."""
     g = np.add.outer(np.arange(m.shape[0]), np.arange(m.shape[1]))
     return float(m[g > line].sum())
 
 
 def prob_btts(m):
     return float(m[1:, 1:].sum())
+
+
+def solve_rates(constraints, total_prior=2.5, rho=RHO):
+    """Find (lam_home, lam_away) whose matrix best reproduces market probs.
+
+    constraints: {'1x2': {'home','draw','away'} (required),
+                  'totals': [(line, p_over), ...],
+                  'btts': p_yes or None}
+    Extra keys are ignored. When no totals are quoted, a soft prior keeps
+    total goals near total_prior.
+    """
+    one_x2 = constraints["1x2"]
+    totals = constraints.get("totals") or []
+    btts = constraints.get("btts")
+
+    def loss(x):
+        lh, la = np.exp(x)
+        m = score_matrix(lh, la, rho)
+        oc = outcome_probs(m)
+        err = sum((oc[k] - one_x2[k]) ** 2 for k in ("home", "draw", "away"))
+        for line, p in totals:
+            err += (prob_over(m, line) - p) ** 2
+        if btts is not None:
+            err += (prob_btts(m) - btts) ** 2
+        if not totals:
+            err += 0.01 * ((lh + la) - total_prior) ** 2
+        return err
+
+    edge = one_x2["home"] - one_x2["away"]
+    share = min(0.8, max(0.2, 0.5 + 0.4 * edge))
+    x0 = np.log([total_prior * share, total_prior * (1 - share)])
+    res = minimize(loss, x0, method="Nelder-Mead",
+                   options={"xatol": 1e-4, "fatol": 1e-10, "maxiter": 2000})
+    lh, la = np.exp(res.x)
+    return float(lh), float(la)
