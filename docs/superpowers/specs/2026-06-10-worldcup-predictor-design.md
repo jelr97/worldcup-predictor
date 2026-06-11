@@ -62,7 +62,7 @@ the repo.
    region, so the sharp-book signal is kept.
 3. Response cached to `data/cache/` with timestamp; the app reuses the cache
    on reload. A "Refresh odds" button forces a new fetch.
-4. Elo ratings fetched (and cached) from eloratings.net.
+4. Elo ratings loaded from a bundled snapshot (data/elo_snapshot.csv), refreshed manually via scripts/snapshot_elo.py.
 5. Model runs per match; dashboard shows: kickoff time (ET), de-vigged
    win/draw/win probabilities, recommended Pool 1 and Pool 2 scores, and the
    top-5 candidate scores with expected points.
@@ -92,8 +92,7 @@ so the user must enter the pools' real point values in `config.yaml`
 (default until then: 3 exact / 1 outcome, a common polla scheme).
 
 **Knockouts:** bookmaker 1X2 prices the 90-minute result (draw included),
-which is also what the pools score by default. A config flag switches to
-post-extra-time scoring if a pool turns out to differ.
+which is also what the pools score by default. The config validates this ('90min'); post-extra-time scoring is rejected with a clear error and would need a small extension if a pool turns out to differ.
 
 **Elo (v1, `elo.py`):** two uses — (a) fallback when a match is missing from
 the odds feed: the Elo win expectancy is split into win/draw/loss

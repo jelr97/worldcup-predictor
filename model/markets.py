@@ -50,9 +50,9 @@ def build_constraints(event, extras=None):
         for book in src.get("bookmakers", []):
             for mkt in book.get("markets", []):
                 if mkt["key"] == "h2h":
-                    odds = _h2h_odds(mkt, home, away)
-                    if odds:
-                        h2h_books[book["key"]] = implied.devig(odds)
+                    d = implied.devig(_h2h_odds(mkt, home, away) or {})
+                    if d:
+                        h2h_books[book["key"]] = d
                 elif mkt["key"] in ("totals", "alternate_totals"):
                     for line, ou in _totals_odds(mkt).items():
                         d = implied.devig(ou)
