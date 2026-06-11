@@ -1,0 +1,834 @@
+[
+  {
+    "match_id": 1,
+    "stage": "Group A",
+    "home": "Mexico",
+    "away": "South Africa",
+    "kickoff_utc": "2026-06-11T19:00:00Z",
+    "venue": "Mexico City Stadium"
+  },
+  {
+    "match_id": 2,
+    "stage": "Group A",
+    "home": "Korea Republic",
+    "away": "Czechia",
+    "kickoff_utc": "2026-06-12T02:00:00Z",
+    "venue": "Guadalajara Stadium"
+  },
+  {
+    "match_id": 3,
+    "stage": "Group B",
+    "home": "Canada",
+    "away": "Bosnia and Herzegovina",
+    "kickoff_utc": "2026-06-12T19:00:00Z",
+    "venue": "Toronto Stadium"
+  },
+  {
+    "match_id": 4,
+    "stage": "Group D",
+    "home": "USA",
+    "away": "Paraguay",
+    "kickoff_utc": "2026-06-13T01:00:00Z",
+    "venue": "Los Angeles Stadium"
+  },
+  {
+    "match_id": 8,
+    "stage": "Group B",
+    "home": "Qatar",
+    "away": "Switzerland",
+    "kickoff_utc": "2026-06-13T19:00:00Z",
+    "venue": "San Francisco Bay Area Stadium"
+  },
+  {
+    "match_id": 7,
+    "stage": "Group C",
+    "home": "Brazil",
+    "away": "Morocco",
+    "kickoff_utc": "2026-06-13T22:00:00Z",
+    "venue": "New York/New Jersey Stadium"
+  },
+  {
+    "match_id": 5,
+    "stage": "Group C",
+    "home": "Haiti",
+    "away": "Scotland",
+    "kickoff_utc": "2026-06-14T01:00:00Z",
+    "venue": "Boston Stadium"
+  },
+  {
+    "match_id": 6,
+    "stage": "Group D",
+    "home": "Australia",
+    "away": "Türkiye",
+    "kickoff_utc": "2026-06-14T04:00:00Z",
+    "venue": "BC Place Vancouver"
+  },
+  {
+    "match_id": 10,
+    "stage": "Group E",
+    "home": "Germany",
+    "away": "Curaçao",
+    "kickoff_utc": "2026-06-14T17:00:00Z",
+    "venue": "Houston Stadium"
+  },
+  {
+    "match_id": 11,
+    "stage": "Group F",
+    "home": "Netherlands",
+    "away": "Japan",
+    "kickoff_utc": "2026-06-14T20:00:00Z",
+    "venue": "Dallas Stadium"
+  },
+  {
+    "match_id": 9,
+    "stage": "Group E",
+    "home": "Côte d'Ivoire",
+    "away": "Ecuador",
+    "kickoff_utc": "2026-06-14T23:00:00Z",
+    "venue": "Philadelphia Stadium"
+  },
+  {
+    "match_id": 12,
+    "stage": "Group F",
+    "home": "Sweden",
+    "away": "Tunisia",
+    "kickoff_utc": "2026-06-15T02:00:00Z",
+    "venue": "Monterrey Stadium"
+  },
+  {
+    "match_id": 14,
+    "stage": "Group H",
+    "home": "Spain",
+    "away": "Cabo Verde",
+    "kickoff_utc": "2026-06-15T16:00:00Z",
+    "venue": "Atlanta Stadium"
+  },
+  {
+    "match_id": 16,
+    "stage": "Group G",
+    "home": "Belgium",
+    "away": "Egypt",
+    "kickoff_utc": "2026-06-15T19:00:00Z",
+    "venue": "Seattle Stadium"
+  },
+  {
+    "match_id": 13,
+    "stage": "Group H",
+    "home": "Saudi Arabia",
+    "away": "Uruguay",
+    "kickoff_utc": "2026-06-15T22:00:00Z",
+    "venue": "Miami Stadium"
+  },
+  {
+    "match_id": 15,
+    "stage": "Group G",
+    "home": "IR Iran",
+    "away": "New Zealand",
+    "kickoff_utc": "2026-06-16T01:00:00Z",
+    "venue": "Los Angeles Stadium"
+  },
+  {
+    "match_id": 17,
+    "stage": "Group I",
+    "home": "France",
+    "away": "Senegal",
+    "kickoff_utc": "2026-06-16T19:00:00Z",
+    "venue": "New York/New Jersey Stadium"
+  },
+  {
+    "match_id": 18,
+    "stage": "Group I",
+    "home": "Iraq",
+    "away": "Norway",
+    "kickoff_utc": "2026-06-16T22:00:00Z",
+    "venue": "Boston Stadium"
+  },
+  {
+    "match_id": 19,
+    "stage": "Group J",
+    "home": "Argentina",
+    "away": "Algeria",
+    "kickoff_utc": "2026-06-17T01:00:00Z",
+    "venue": "Kansas City Stadium"
+  },
+  {
+    "match_id": 20,
+    "stage": "Group J",
+    "home": "Austria",
+    "away": "Jordan",
+    "kickoff_utc": "2026-06-17T04:00:00Z",
+    "venue": "San Francisco Bay Area Stadium"
+  },
+  {
+    "match_id": 23,
+    "stage": "Group K",
+    "home": "Portugal",
+    "away": "Congo DR",
+    "kickoff_utc": "2026-06-17T17:00:00Z",
+    "venue": "Houston Stadium"
+  },
+  {
+    "match_id": 22,
+    "stage": "Group L",
+    "home": "England",
+    "away": "Croatia",
+    "kickoff_utc": "2026-06-17T20:00:00Z",
+    "venue": "Dallas Stadium"
+  },
+  {
+    "match_id": 21,
+    "stage": "Group L",
+    "home": "Ghana",
+    "away": "Panama",
+    "kickoff_utc": "2026-06-17T23:00:00Z",
+    "venue": "Toronto Stadium"
+  },
+  {
+    "match_id": 24,
+    "stage": "Group K",
+    "home": "Uzbekistan",
+    "away": "Colombia",
+    "kickoff_utc": "2026-06-18T02:00:00Z",
+    "venue": "Mexico City Stadium"
+  },
+  {
+    "match_id": 25,
+    "stage": "Group A",
+    "home": "Czechia",
+    "away": "South Africa",
+    "kickoff_utc": "2026-06-18T16:00:00Z",
+    "venue": "Atlanta Stadium"
+  },
+  {
+    "match_id": 26,
+    "stage": "Group B",
+    "home": "Switzerland",
+    "away": "Bosnia and Herzegovina",
+    "kickoff_utc": "2026-06-18T19:00:00Z",
+    "venue": "Los Angeles Stadium"
+  },
+  {
+    "match_id": 27,
+    "stage": "Group B",
+    "home": "Canada",
+    "away": "Qatar",
+    "kickoff_utc": "2026-06-18T22:00:00Z",
+    "venue": "BC Place Vancouver"
+  },
+  {
+    "match_id": 28,
+    "stage": "Group A",
+    "home": "Mexico",
+    "away": "Korea Republic",
+    "kickoff_utc": "2026-06-19T01:00:00Z",
+    "venue": "Guadalajara Stadium"
+  },
+  {
+    "match_id": 32,
+    "stage": "Group D",
+    "home": "USA",
+    "away": "Australia",
+    "kickoff_utc": "2026-06-19T19:00:00Z",
+    "venue": "Seattle Stadium"
+  },
+  {
+    "match_id": 30,
+    "stage": "Group C",
+    "home": "Scotland",
+    "away": "Morocco",
+    "kickoff_utc": "2026-06-19T22:00:00Z",
+    "venue": "Boston Stadium"
+  },
+  {
+    "match_id": 29,
+    "stage": "Group C",
+    "home": "Brazil",
+    "away": "Haiti",
+    "kickoff_utc": "2026-06-20T01:00:00Z",
+    "venue": "Philadelphia Stadium"
+  },
+  {
+    "match_id": 31,
+    "stage": "Group D",
+    "home": "Türkiye",
+    "away": "Paraguay",
+    "kickoff_utc": "2026-06-20T04:00:00Z",
+    "venue": "San Francisco Bay Area Stadium"
+  },
+  {
+    "match_id": 35,
+    "stage": "Group F",
+    "home": "Netherlands",
+    "away": "Sweden",
+    "kickoff_utc": "2026-06-20T17:00:00Z",
+    "venue": "Houston Stadium"
+  },
+  {
+    "match_id": 33,
+    "stage": "Group E",
+    "home": "Germany",
+    "away": "Côte d'Ivoire",
+    "kickoff_utc": "2026-06-20T20:00:00Z",
+    "venue": "Toronto Stadium"
+  },
+  {
+    "match_id": 34,
+    "stage": "Group E",
+    "home": "Ecuador",
+    "away": "Curaçao",
+    "kickoff_utc": "2026-06-21T00:00:00Z",
+    "venue": "Kansas City Stadium"
+  },
+  {
+    "match_id": 36,
+    "stage": "Group F",
+    "home": "Tunisia",
+    "away": "Japan",
+    "kickoff_utc": "2026-06-21T04:00:00Z",
+    "venue": "Monterrey Stadium"
+  },
+  {
+    "match_id": 38,
+    "stage": "Group H",
+    "home": "Spain",
+    "away": "Saudi Arabia",
+    "kickoff_utc": "2026-06-21T16:00:00Z",
+    "venue": "Atlanta Stadium"
+  },
+  {
+    "match_id": 39,
+    "stage": "Group G",
+    "home": "Belgium",
+    "away": "IR Iran",
+    "kickoff_utc": "2026-06-21T19:00:00Z",
+    "venue": "Los Angeles Stadium"
+  },
+  {
+    "match_id": 37,
+    "stage": "Group H",
+    "home": "Uruguay",
+    "away": "Cabo Verde",
+    "kickoff_utc": "2026-06-21T22:00:00Z",
+    "venue": "Miami Stadium"
+  },
+  {
+    "match_id": 40,
+    "stage": "Group G",
+    "home": "New Zealand",
+    "away": "Egypt",
+    "kickoff_utc": "2026-06-22T01:00:00Z",
+    "venue": "BC Place Vancouver"
+  },
+  {
+    "match_id": 43,
+    "stage": "Group J",
+    "home": "Argentina",
+    "away": "Austria",
+    "kickoff_utc": "2026-06-22T17:00:00Z",
+    "venue": "Dallas Stadium"
+  },
+  {
+    "match_id": 42,
+    "stage": "Group I",
+    "home": "France",
+    "away": "Iraq",
+    "kickoff_utc": "2026-06-22T21:00:00Z",
+    "venue": "Philadelphia Stadium"
+  },
+  {
+    "match_id": 41,
+    "stage": "Group I",
+    "home": "Norway",
+    "away": "Senegal",
+    "kickoff_utc": "2026-06-23T00:00:00Z",
+    "venue": "New York/New Jersey Stadium"
+  },
+  {
+    "match_id": 44,
+    "stage": "Group J",
+    "home": "Jordan",
+    "away": "Algeria",
+    "kickoff_utc": "2026-06-23T03:00:00Z",
+    "venue": "San Francisco Bay Area Stadium"
+  },
+  {
+    "match_id": 47,
+    "stage": "Group K",
+    "home": "Portugal",
+    "away": "Uzbekistan",
+    "kickoff_utc": "2026-06-23T17:00:00Z",
+    "venue": "Houston Stadium"
+  },
+  {
+    "match_id": 45,
+    "stage": "Group L",
+    "home": "England",
+    "away": "Ghana",
+    "kickoff_utc": "2026-06-23T20:00:00Z",
+    "venue": "Boston Stadium"
+  },
+  {
+    "match_id": 46,
+    "stage": "Group L",
+    "home": "Panama",
+    "away": "Croatia",
+    "kickoff_utc": "2026-06-23T23:00:00Z",
+    "venue": "Toronto Stadium"
+  },
+  {
+    "match_id": 48,
+    "stage": "Group K",
+    "home": "Colombia",
+    "away": "Congo DR",
+    "kickoff_utc": "2026-06-24T02:00:00Z",
+    "venue": "Guadalajara Stadium"
+  },
+  {
+    "match_id": 51,
+    "stage": "Group B",
+    "home": "Switzerland",
+    "away": "Canada",
+    "kickoff_utc": "2026-06-24T19:00:00Z",
+    "venue": "BC Place Vancouver"
+  },
+  {
+    "match_id": 52,
+    "stage": "Group B",
+    "home": "Bosnia and Herzegovina",
+    "away": "Qatar",
+    "kickoff_utc": "2026-06-24T19:00:00Z",
+    "venue": "Seattle Stadium"
+  },
+  {
+    "match_id": 49,
+    "stage": "Group C",
+    "home": "Scotland",
+    "away": "Brazil",
+    "kickoff_utc": "2026-06-24T22:00:00Z",
+    "venue": "Miami Stadium"
+  },
+  {
+    "match_id": 50,
+    "stage": "Group C",
+    "home": "Morocco",
+    "away": "Haiti",
+    "kickoff_utc": "2026-06-24T22:00:00Z",
+    "venue": "Atlanta Stadium"
+  },
+  {
+    "match_id": 53,
+    "stage": "Group A",
+    "home": "Czechia",
+    "away": "Mexico",
+    "kickoff_utc": "2026-06-25T01:00:00Z",
+    "venue": "Mexico City Stadium"
+  },
+  {
+    "match_id": 54,
+    "stage": "Group A",
+    "home": "South Africa",
+    "away": "Korea Republic",
+    "kickoff_utc": "2026-06-25T01:00:00Z",
+    "venue": "Monterrey Stadium"
+  },
+  {
+    "match_id": 55,
+    "stage": "Group E",
+    "home": "Curaçao",
+    "away": "Côte d'Ivoire",
+    "kickoff_utc": "2026-06-25T20:00:00Z",
+    "venue": "Philadelphia Stadium"
+  },
+  {
+    "match_id": 56,
+    "stage": "Group E",
+    "home": "Ecuador",
+    "away": "Germany",
+    "kickoff_utc": "2026-06-25T20:00:00Z",
+    "venue": "New York/New Jersey Stadium"
+  },
+  {
+    "match_id": 57,
+    "stage": "Group F",
+    "home": "Japan",
+    "away": "Sweden",
+    "kickoff_utc": "2026-06-25T23:00:00Z",
+    "venue": "Dallas Stadium"
+  },
+  {
+    "match_id": 58,
+    "stage": "Group F",
+    "home": "Tunisia",
+    "away": "Netherlands",
+    "kickoff_utc": "2026-06-25T23:00:00Z",
+    "venue": "Kansas City Stadium"
+  },
+  {
+    "match_id": 59,
+    "stage": "Group D",
+    "home": "Türkiye",
+    "away": "USA",
+    "kickoff_utc": "2026-06-26T02:00:00Z",
+    "venue": "Los Angeles Stadium"
+  },
+  {
+    "match_id": 60,
+    "stage": "Group D",
+    "home": "Paraguay",
+    "away": "Australia",
+    "kickoff_utc": "2026-06-26T02:00:00Z",
+    "venue": "San Francisco Bay Area Stadium"
+  },
+  {
+    "match_id": 61,
+    "stage": "Group I",
+    "home": "Norway",
+    "away": "France",
+    "kickoff_utc": "2026-06-26T19:00:00Z",
+    "venue": "Boston Stadium"
+  },
+  {
+    "match_id": 62,
+    "stage": "Group I",
+    "home": "Senegal",
+    "away": "Iraq",
+    "kickoff_utc": "2026-06-26T19:00:00Z",
+    "venue": "Toronto Stadium"
+  },
+  {
+    "match_id": 65,
+    "stage": "Group H",
+    "home": "Cabo Verde",
+    "away": "Saudi Arabia",
+    "kickoff_utc": "2026-06-27T00:00:00Z",
+    "venue": "Houston Stadium"
+  },
+  {
+    "match_id": 66,
+    "stage": "Group H",
+    "home": "Uruguay",
+    "away": "Spain",
+    "kickoff_utc": "2026-06-27T00:00:00Z",
+    "venue": "Guadalajara Stadium"
+  },
+  {
+    "match_id": 63,
+    "stage": "Group G",
+    "home": "Egypt",
+    "away": "IR Iran",
+    "kickoff_utc": "2026-06-27T03:00:00Z",
+    "venue": "Seattle Stadium"
+  },
+  {
+    "match_id": 64,
+    "stage": "Group G",
+    "home": "New Zealand",
+    "away": "Belgium",
+    "kickoff_utc": "2026-06-27T03:00:00Z",
+    "venue": "BC Place Vancouver"
+  },
+  {
+    "match_id": 67,
+    "stage": "Group L",
+    "home": "Panama",
+    "away": "England",
+    "kickoff_utc": "2026-06-27T21:00:00Z",
+    "venue": "New York/New Jersey Stadium"
+  },
+  {
+    "match_id": 68,
+    "stage": "Group L",
+    "home": "Croatia",
+    "away": "Ghana",
+    "kickoff_utc": "2026-06-27T21:00:00Z",
+    "venue": "Philadelphia Stadium"
+  },
+  {
+    "match_id": 71,
+    "stage": "Group K",
+    "home": "Colombia",
+    "away": "Portugal",
+    "kickoff_utc": "2026-06-27T23:30:00Z",
+    "venue": "Miami Stadium"
+  },
+  {
+    "match_id": 72,
+    "stage": "Group K",
+    "home": "Congo DR",
+    "away": "Uzbekistan",
+    "kickoff_utc": "2026-06-27T23:30:00Z",
+    "venue": "Atlanta Stadium"
+  },
+  {
+    "match_id": 69,
+    "stage": "Group J",
+    "home": "Algeria",
+    "away": "Austria",
+    "kickoff_utc": "2026-06-28T02:00:00Z",
+    "venue": "Kansas City Stadium"
+  },
+  {
+    "match_id": 70,
+    "stage": "Group J",
+    "home": "Jordan",
+    "away": "Argentina",
+    "kickoff_utc": "2026-06-28T02:00:00Z",
+    "venue": "Dallas Stadium"
+  },
+  {
+    "match_id": 73,
+    "stage": "Knockout R4",
+    "home": "2A",
+    "away": "2B",
+    "kickoff_utc": "2026-06-28T19:00:00Z",
+    "venue": "Los Angeles Stadium"
+  },
+  {
+    "match_id": 76,
+    "stage": "Knockout R4",
+    "home": "1C",
+    "away": "2F",
+    "kickoff_utc": "2026-06-29T17:00:00Z",
+    "venue": "Houston Stadium"
+  },
+  {
+    "match_id": 74,
+    "stage": "Knockout R4",
+    "home": "1E",
+    "away": "3ABCDF",
+    "kickoff_utc": "2026-06-29T20:30:00Z",
+    "venue": "Boston Stadium"
+  },
+  {
+    "match_id": 75,
+    "stage": "Knockout R4",
+    "home": "1F",
+    "away": "2C",
+    "kickoff_utc": "2026-06-30T01:00:00Z",
+    "venue": "Monterrey Stadium"
+  },
+  {
+    "match_id": 78,
+    "stage": "Knockout R4",
+    "home": "2E",
+    "away": "2I",
+    "kickoff_utc": "2026-06-30T17:00:00Z",
+    "venue": "Dallas Stadium"
+  },
+  {
+    "match_id": 77,
+    "stage": "Knockout R4",
+    "home": "1I",
+    "away": "3CDFGH",
+    "kickoff_utc": "2026-06-30T21:00:00Z",
+    "venue": "New York/New Jersey Stadium"
+  },
+  {
+    "match_id": 79,
+    "stage": "Knockout R4",
+    "home": "1A",
+    "away": "3CEFHI",
+    "kickoff_utc": "2026-07-01T01:00:00Z",
+    "venue": "Mexico City Stadium"
+  },
+  {
+    "match_id": 80,
+    "stage": "Knockout R4",
+    "home": "1L",
+    "away": "3EHIJK",
+    "kickoff_utc": "2026-07-01T16:00:00Z",
+    "venue": "Atlanta Stadium"
+  },
+  {
+    "match_id": 82,
+    "stage": "Knockout R4",
+    "home": "1G",
+    "away": "3AEHIJ",
+    "kickoff_utc": "2026-07-01T20:00:00Z",
+    "venue": "Seattle Stadium"
+  },
+  {
+    "match_id": 81,
+    "stage": "Knockout R4",
+    "home": "1D",
+    "away": "3BEFIJ",
+    "kickoff_utc": "2026-07-02T00:00:00Z",
+    "venue": "San Francisco Bay Area Stadium"
+  },
+  {
+    "match_id": 84,
+    "stage": "Knockout R4",
+    "home": "1H",
+    "away": "2J",
+    "kickoff_utc": "2026-07-02T19:00:00Z",
+    "venue": "Los Angeles Stadium"
+  },
+  {
+    "match_id": 83,
+    "stage": "Knockout R4",
+    "home": "2K",
+    "away": "2L",
+    "kickoff_utc": "2026-07-02T23:00:00Z",
+    "venue": "Toronto Stadium"
+  },
+  {
+    "match_id": 85,
+    "stage": "Knockout R4",
+    "home": "1B",
+    "away": "3EFGIJ",
+    "kickoff_utc": "2026-07-03T03:00:00Z",
+    "venue": "BC Place Vancouver"
+  },
+  {
+    "match_id": 88,
+    "stage": "Knockout R4",
+    "home": "2D",
+    "away": "2G",
+    "kickoff_utc": "2026-07-03T18:00:00Z",
+    "venue": "Dallas Stadium"
+  },
+  {
+    "match_id": 86,
+    "stage": "Knockout R4",
+    "home": "1J",
+    "away": "2H",
+    "kickoff_utc": "2026-07-03T22:00:00Z",
+    "venue": "Miami Stadium"
+  },
+  {
+    "match_id": 87,
+    "stage": "Knockout R4",
+    "home": "1K",
+    "away": "3DEIJL",
+    "kickoff_utc": "2026-07-04T01:30:00Z",
+    "venue": "Kansas City Stadium"
+  },
+  {
+    "match_id": 90,
+    "stage": "Knockout R5",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-04T17:00:00Z",
+    "venue": "Houston Stadium"
+  },
+  {
+    "match_id": 89,
+    "stage": "Knockout R5",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-04T21:00:00Z",
+    "venue": "Philadelphia Stadium"
+  },
+  {
+    "match_id": 91,
+    "stage": "Knockout R5",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-05T20:00:00Z",
+    "venue": "New York/New Jersey Stadium"
+  },
+  {
+    "match_id": 92,
+    "stage": "Knockout R5",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-06T00:00:00Z",
+    "venue": "Mexico City Stadium"
+  },
+  {
+    "match_id": 93,
+    "stage": "Knockout R5",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-06T19:00:00Z",
+    "venue": "Dallas Stadium"
+  },
+  {
+    "match_id": 94,
+    "stage": "Knockout R5",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-07T00:00:00Z",
+    "venue": "Seattle Stadium"
+  },
+  {
+    "match_id": 95,
+    "stage": "Knockout R5",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-07T16:00:00Z",
+    "venue": "Atlanta Stadium"
+  },
+  {
+    "match_id": 96,
+    "stage": "Knockout R5",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-07T20:00:00Z",
+    "venue": "BC Place Vancouver"
+  },
+  {
+    "match_id": 97,
+    "stage": "Knockout R6",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-09T20:00:00Z",
+    "venue": "Boston Stadium"
+  },
+  {
+    "match_id": 98,
+    "stage": "Knockout R6",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-10T19:00:00Z",
+    "venue": "Los Angeles Stadium"
+  },
+  {
+    "match_id": 99,
+    "stage": "Knockout R6",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-11T21:00:00Z",
+    "venue": "Miami Stadium"
+  },
+  {
+    "match_id": 100,
+    "stage": "Knockout R6",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-12T01:00:00Z",
+    "venue": "Kansas City Stadium"
+  },
+  {
+    "match_id": 101,
+    "stage": "Knockout R7",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-14T19:00:00Z",
+    "venue": "Dallas Stadium"
+  },
+  {
+    "match_id": 102,
+    "stage": "Knockout R7",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-15T19:00:00Z",
+    "venue": "Atlanta Stadium"
+  },
+  {
+    "match_id": 103,
+    "stage": "Knockout R8",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-18T21:00:00Z",
+    "venue": "Miami Stadium"
+  },
+  {
+    "match_id": 104,
+    "stage": "Knockout R8",
+    "home": "To be announced",
+    "away": "To be announced",
+    "kickoff_utc": "2026-07-19T19:00:00Z",
+    "venue": "New York/New Jersey Stadium"
+  }
+]
