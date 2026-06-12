@@ -105,9 +105,11 @@ def predict_match(fixture, event, extras, swapped, elo_ratings, cfg,
                 }
                 # When event is swapped, the spread lines were computed from
                 # the event's home perspective. Fixture-home = event-away, so
-                # fixture-home handicap = -(event-home handicap).
+                # fixture-home handicap = -(event-home handicap) AND the cover
+                # probability must be complemented: P(fixture-home covers L) =
+                # 1 - P(event-home covers -L).
                 constraints["spreads"] = [
-                    (-line, p) for line, p in (constraints.get("spreads") or [])
+                    (-line, 1.0 - p) for line, p in (constraints.get("spreads") or [])
                 ]
             market_constraints = constraints
             lh, la = solve_rates(constraints)

@@ -107,10 +107,11 @@ def build_constraints(event, extras=None):
         if agg:
             spreads.append((line, agg["home"]))
     # When the odds event was swapped (home/away reversed vs fixture), the
-    # caller flips 1x2 home<->away AND must flip spread lines: the line stored
-    # here is fixture-event-home handicap; when swapped, fixture-home = event-away,
-    # so the fixture-home handicap = -event_home_handicap. The caller does this
-    # flip at the same place it flips 1x2.
+    # caller flips 1x2 home<->away AND must flip spread lines AND complement
+    # the cover probability: the line stored here is the event-home handicap;
+    # when swapped, fixture-home = event-away, so fixture-home handicap =
+    # -event_home_handicap, and P(fixture-home covers L) = 1 - P(event-home
+    # covers -L). The caller does both flips at the same place it flips 1x2.
     return {"1x2": one_x2, "totals": totals,
             "btts": btts_agg["yes"] if btts_agg else None,
             "spreads": spreads,

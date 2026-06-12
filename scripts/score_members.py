@@ -160,7 +160,7 @@ def _market_pick(fixture, events, cfg) -> str | None:
             "away": constraints["1x2"]["home"],
         }
         constraints["spreads"] = [
-            (-line, p) for line, p in (constraints.get("spreads") or [])
+            (-line, 1.0 - p) for line, p in (constraints.get("spreads") or [])
         ]
     lh, la = solve_rates(constraints)
     m = score_matrix(lh, la)

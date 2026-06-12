@@ -100,9 +100,24 @@ def test_spreads_absent_when_no_spreads_market(sample_event):
 
 
 def test_spreads_swapped_orientation():
-    """When odds event is home/away-swapped vs fixture, lines flip sign."""
-    import copy
-    # Build a raw event where South Africa is listed as home_team
+    """When odds event is home/away-swapped vs fixture, lines flip sign AND
+    the cover probability is complemented.
+
+    Scenario: fixture is Mexico (home) vs South Africa (away), but the odds
+    event has South Africa as home_team (swapped).
+
+    build_constraints returns spreads keyed to the *event* home (SA):
+      line = +1.5  (SA event-home handicap)
+      p    = P(SA covers +1.5) = P(SA - MEX > -1.5)  [always true for SA win/draw]
+
+    After the predict.py swap correction the fixture-oriented constraint must be:
+      line = -1.5  (Mexico fixture-home handicap = -event_home_handicap)
+      p    = P(Mexico covers -1.5) = 1 - P(SA covers +1.5)
+
+    The line flip and probability complement must both hold.  Asserting only
+    the line flip (the old test) enshrines the bug where p stays as the
+    event-home value instead of being complemented.
+    """
     event = {
         "id": "swap_test",
         "home_team": "South Africa",
@@ -116,21 +131,33 @@ def test_spreads_swapped_orientation():
                 {"key": "spreads", "outcomes": [
                     # South Africa is event-home with +1.5 (event-home handicap = +1.5)
                     {"name": "South Africa", "point": 1.5, "price": 1.52},
-                    # Mexico is event-away with -1.5 (event-home handicap for Mexico = -1.5)
+                    # Mexico is event-away with -1.5
                     {"name": "Mexico", "point": -1.5, "price": 2.55}]}
             ]}
         ]
     }
     # build_constraints uses event home/away; event-home = South Africa
-    # South Africa point 1.5 -> fixture-home (South Africa here) handicap = +1.5
     c = build_constraints(event)
     lines_before_swap = dict(c["spreads"])
-    # The event-home (South Africa) has point +1.5 stored as home-covers line +1.5
-    # This means "South Africa covers if SA_goals - MEX_goals > -1.5" (always true if draw or win)
+    # SA event-home handicap +1.5; p_before = P(SA covers +1.5) ~ 0.63
     assert 1.5 in lines_before_swap
+    p_before = lines_before_swap[1.5]
+    assert 0.55 < p_before < 0.75, f"expected P(SA covers +1.5) ~ 0.63, got {p_before}"
 
-    # After swap flip (as done in predict.py when swapped=True):
-    swapped_spreads = [(-line, p) for line, p in c["spreads"]]
+    # Apply the same flip as predict.py / score_members.py when swapped=True:
+    swapped_spreads = [(-line, 1.0 - p) for line, p in c["spreads"]]
     lines_after_swap = dict(swapped_spreads)
-    # Now fixture-home = Mexico; Mexico's handicap was -1.5, so line = -1.5
+
+    # Line must flip sign: fixture-home (Mexico) handicap = -1.5
     assert -1.5 in lines_after_swap
+
+    # Probability must be complemented: P(Mexico covers -1.5) = 1 - P(SA covers +1.5)
+    p_after = lines_after_swap[-1.5]
+    assert abs(p_after - (1.0 - p_before)) < 0.001, (
+        f"p_after={p_after} should equal 1 - p_before={1.0 - p_before}"
+    )
+    # The flipped probability must be < 0.5 (Mexico is the favourite to cover -1.5
+    # only at underdog lines; SA is underdog here so Mexico covers -1.5 less often)
+    assert p_after < 0.5, (
+        f"P(Mexico covers -1.5) should be < 0.5 (SA is underdog), got {p_after}"
+    )
