@@ -28,26 +28,36 @@ def load_experts() -> dict:
         warnings.warn(f"experts.csv could not be opened: {exc}", RuntimeWarning, stacklevel=2)
         return {}
     with f_handle:
-        for lineno, row in enumerate(csv.DictReader(f_handle), start=2):
-            try:
-                key = (row["team_a"], row["team_b"])
-                experts[key] = {
-                    "group": row["group"],
-                    "team_a": row["team_a"],
-                    "team_b": row["team_b"],
-                    "davo_a": int(row["davo_a"]),
-                    "davo_b": int(row["davo_b"]),
-                    "maldini_a": int(row["maldini_a"]),
-                    "maldini_b": int(row["maldini_b"]),
-                }
-            except Exception as exc:
-                import warnings
-                warnings.warn(
-                    f"experts.csv line {lineno}: skipping corrupt row "
-                    f"({row!r}): {exc}",
-                    RuntimeWarning,
-                    stacklevel=2,
-                )
+        try:
+            for lineno, row in enumerate(csv.DictReader(f_handle), start=2):
+                try:
+                    key = (row["team_a"], row["team_b"])
+                    experts[key] = {
+                        "group": row["group"],
+                        "team_a": row["team_a"],
+                        "team_b": row["team_b"],
+                        "davo_a": int(row["davo_a"]),
+                        "davo_b": int(row["davo_b"]),
+                        "maldini_a": int(row["maldini_a"]),
+                        "maldini_b": int(row["maldini_b"]),
+                    }
+                except Exception as exc:
+                    import warnings
+                    warnings.warn(
+                        f"experts.csv line {lineno}: skipping corrupt row "
+                        f"({row!r}): {exc}",
+                        RuntimeWarning,
+                        stacklevel=2,
+                    )
+        except (UnicodeDecodeError, csv.Error) as exc:
+            import warnings
+            warnings.warn(
+                f"experts.csv could not be fully read (file-level encoding/format "
+                f"error): {exc}. Experts data collected so far will be used; "
+                f"re-save the file as UTF-8 to restore full coverage.",
+                RuntimeWarning,
+                stacklevel=2,
+            )
     return experts
 
 
