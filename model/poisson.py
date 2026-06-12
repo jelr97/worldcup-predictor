@@ -42,8 +42,9 @@ def prob_btts(m):
 def prob_home_covers(m, line):
     """P(home covers the handicap) = mass where (i - j) > -line.
 
-    line is the fixture-home handicap (positive means home gives goals, e.g. -1.5
-    stored as line=-1.5 means home must win by >1.5 to cover).
+    line is the fixture-home handicap (NEGATIVE means home gives goals: e.g.
+    line=-1.5 means home must win by >1.5 to cover; line=+0.5 covers on a
+    home win or draw).
     Home covers iff (i - j) + line > 0  ⟺  (i - j) > -line.
     Use half-integer lines only (push-free).
     """
