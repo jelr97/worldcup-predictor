@@ -64,11 +64,6 @@ def render_card(p: MatchPrediction, flag_home: str, flag_away: str) -> str:
             caption_body = f'{stage} · {kickoff} · {p.books_count} bookmakers'
         else:
             caption_body = f'{stage} · {kickoff}'
-        # Append expert picks segment when available
-        if expert_picks:
-            davo_esc = html.escape(expert_picks["davo"])
-            maldini_esc = html.escape(expert_picks["maldini"])
-            caption_body += f' · Davo {davo_esc} · Maldini {maldini_esc}'
         if p.elo_disagrees:
             caption_body += ' · ⚠️ market and Elo disagree'
 
@@ -112,6 +107,23 @@ def render_card(p: MatchPrediction, flag_home: str, flag_away: str) -> str:
         f'</div>'
     )
 
+    # ── expert picks chip row ─────────────────────────────────────────────────
+    expert_chip_row = ""
+    if expert_picks:
+        davo_esc = html.escape(expert_picks["davo"])
+        maldini_esc = html.escape(expert_picks["maldini"])
+        chip_style = (
+            "display:inline-block;font-size:13px;padding:2px 8px;"
+            "border:1px solid #444;border-radius:10px;margin-right:6px;"
+            "color:#333;background:none;"
+        )
+        expert_chip_row = (
+            f'<div style="margin-bottom:8px;">'
+            f'<span style="{chip_style}">DAVO {davo_esc}</span>'
+            f'<span style="{chip_style}">MALDINI {maldini_esc}</span>'
+            f'</div>'
+        )
+
     # ── probability bar ───────────────────────────────────────────────────────
     probs = p.probs
     ph = probs["home"]
@@ -146,7 +158,7 @@ def render_card(p: MatchPrediction, flag_home: str, flag_away: str) -> str:
         f'</div>'
     )
 
-    body = title + caption + badges + bar
+    body = title + caption + badges + expert_chip_row + bar
     return _wrap_card(body)
 
 

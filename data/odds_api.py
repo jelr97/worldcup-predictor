@@ -68,7 +68,7 @@ class OddsClient:
 
         force refetches unless the cache is under 15 minutes old."""
         return self._cached_or_fetch(
-            "main", f"/sports/{self.sport_key}/odds", "h2h,totals",
+            "main", f"/sports/{self.sport_key}/odds", "h2h,totals,spreads",
             max_age_hours, force)
 
     def get_event_extras(self, event_id, max_age_hours=12, force=False):

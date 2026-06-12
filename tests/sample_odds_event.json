@@ -12,7 +12,10 @@
         {"name": "South Africa", "price": 5.8}]},
       {"key": "totals", "outcomes": [
         {"name": "Over", "point": 2.5, "price": 2.10},
-        {"name": "Under", "point": 2.5, "price": 1.78}]}]},
+        {"name": "Under", "point": 2.5, "price": 1.78}]},
+      {"key": "spreads", "outcomes": [
+        {"name": "Mexico", "point": -1.5, "price": 2.55},
+        {"name": "South Africa", "point": 1.5, "price": 1.52}]}]},
     {"key": "bet365", "title": "Bet365", "markets": [
       {"key": "h2h", "outcomes": [
         {"name": "Mexico", "price": 1.62},
@@ -20,6 +23,9 @@
         {"name": "South Africa", "price": 6.0}]},
       {"key": "totals", "outcomes": [
         {"name": "Over", "point": 2.5, "price": 2.05},
-        {"name": "Under", "point": 2.5, "price": 1.80}]}]}
+        {"name": "Under", "point": 2.5, "price": 1.80}]},
+      {"key": "spreads", "outcomes": [
+        {"name": "Mexico", "point": -1.5, "price": 2.60},
+        {"name": "South Africa", "point": 1.5, "price": 1.50}]}]}
   ]
 }

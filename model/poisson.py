@@ -39,6 +39,18 @@ def prob_btts(m):
     return float(m[1:, 1:].sum())
 
 
+def prob_home_covers(m, line):
+    """P(home covers the handicap) = mass where (i - j) > -line.
+
+    line is the fixture-home handicap (positive means home gives goals, e.g. -1.5
+    stored as line=-1.5 means home must win by >1.5 to cover).
+    Home covers iff (i - j) + line > 0  ⟺  (i - j) > -line.
+    Use half-integer lines only (push-free).
+    """
+    g = np.subtract.outer(np.arange(m.shape[0]), np.arange(m.shape[1]))
+    return float(m[g > -line].sum())
+
+
 def solve_rates(constraints, total_prior=2.5, rho=RHO):
     """Find (lam_home, lam_away) whose matrix best reproduces market probs.
 
@@ -51,6 +63,7 @@ def solve_rates(constraints, total_prior=2.5, rho=RHO):
     one_x2 = constraints["1x2"]
     totals = constraints.get("totals") or []
     btts = constraints.get("btts")
+    spreads = constraints.get("spreads") or []
 
     def loss(x):
         lh, la = np.exp(x)
@@ -61,6 +74,8 @@ def solve_rates(constraints, total_prior=2.5, rho=RHO):
             err += (prob_over(m, line) - p) ** 2
         if btts is not None:
             err += (prob_btts(m) - btts) ** 2
+        for line, p in spreads:
+            err += (prob_home_covers(m, line) - p) ** 2
         if not totals:
             err += 0.01 * ((lh + la) - total_prior) ** 2
         return err

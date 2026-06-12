@@ -36,27 +36,42 @@ def _make_pred(**kwargs):
     return MatchPrediction(**defaults)
 
 
-# ── expert_picks shown in caption ─────────────────────────────────────────────
+# ── expert_picks shown as chips under badges ──────────────────────────────────
 
-def test_expert_picks_in_caption():
+def test_expert_chips_rendered():
+    """Expert picks appear as DAVO / MALDINI chips after the POOL badges."""
     p = _make_pred(
         source="market+experts",
         members=["market", "experts"],
         expert_picks={"davo": "2-1", "maldini": "2-0"},
     )
     out = render_card(p, "🇲🇽", "🇿🇦")
-    assert "Davo 2-1" in out
-    assert "Maldini 2-0" in out
+    assert "DAVO 2-1" in out
+    assert "MALDINI 2-0" in out
 
 
-def test_expert_picks_absent_when_none():
+def test_expert_chips_absent_when_none():
+    """No chips rendered when expert_picks is None."""
     p = _make_pred(source="market", members=["market"], expert_picks=None)
     out = render_card(p, "🇲🇽", "🇿🇦")
-    assert "Davo" not in out
-    assert "Maldini" not in out
+    assert "DAVO" not in out
+    assert "MALDINI" not in out
 
 
-def test_expert_picks_xss_escaped():
+def test_expert_chips_order_after_badges():
+    """Chip row comes after the POOL badge row in the HTML."""
+    p = _make_pred(
+        source="market+experts",
+        members=["market", "experts"],
+        expert_picks={"davo": "2-1", "maldini": "2-0"},
+    )
+    out = render_card(p, "🇲🇽", "🇿🇦")
+    pool_pos = out.index("POOL 1")
+    davo_pos = out.index("DAVO 2-1")
+    assert davo_pos > pool_pos
+
+
+def test_expert_chips_xss_escaped():
     p = _make_pred(
         source="market+experts",
         members=["market", "experts"],
@@ -66,6 +81,21 @@ def test_expert_picks_xss_escaped():
     assert "<script>" not in out
     assert "&lt;script&gt;" in out
     assert "<b>" not in out
+
+
+def test_expert_picks_not_in_caption():
+    """Expert picks must NOT appear in the caption line (moved to chip row)."""
+    p = _make_pred(
+        source="market+experts",
+        members=["market", "experts"],
+        expert_picks={"davo": "2-1", "maldini": "2-0"},
+    )
+    out = render_card(p, "🇲🇽", "🇿🇦")
+    # The caption div ends before the badges div; DAVO chips come after badges
+    # so they cannot be in the caption. We verify the caption segment:
+    # caption is the div with font-size:12px; chips use 13px and border.
+    assert "Davo 2-1" not in out   # old caption text style (lowercase Davo)
+    assert "Maldini 2-0" not in out  # old caption text style
 
 
 # ── bookmakers shown only when market is a member ─────────────────────────────
