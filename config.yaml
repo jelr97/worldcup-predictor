@@ -15,4 +15,4 @@ odds:
 elo:
   disagreement_threshold: 0.15
 display:
-  upcoming_window_hours: 48
+  upcoming_window_hours: 24   # default filter: Today (2/4 days selectable in app)
