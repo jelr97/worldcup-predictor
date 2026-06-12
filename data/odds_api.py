@@ -45,10 +45,17 @@ class OddsClient:
         self.quota_remaining = self.quota_remaining or payload.get("quota_remaining")
         return payload["data"], age_h
 
-    def _cached_or_fetch(self, name, path, markets, max_age_hours, force):
+    def _cached_or_fetch(self, name, path, markets, max_age_hours, force,
+                         force_floor_hours=0.25):
+        """force refetches — except when the cache is younger than the floor,
+        so an accidental double-press of Refresh costs no quota."""
         data, age = self.load_cache(name)
-        if data is not None and not force and age <= max_age_hours:
-            return data, age
+        if data is not None:
+            if force:
+                if age <= force_floor_hours:
+                    return data, age
+            elif age <= max_age_hours:
+                return data, age
         try:
             fresh = self._get(path, markets=markets)
             self.save_cache(name, fresh)
@@ -57,14 +64,20 @@ class OddsClient:
             return (data, age) if data is not None else (None, None)
 
     def get_main_odds(self, max_age_hours=12, force=False):
-        """All upcoming WC events with h2h + totals. Returns (events, age_hours)."""
+        """All upcoming WC events with h2h + totals. Returns (events, age_hours).
+
+        force refetches unless the cache is under 15 minutes old."""
         return self._cached_or_fetch(
             "main", f"/sports/{self.sport_key}/odds", "h2h,totals",
             max_age_hours, force)
 
     def get_event_extras(self, event_id, max_age_hours=12, force=False):
-        """BTTS + alternate totals for one event (extra API credits)."""
+        """BTTS + alternate totals for one event (extra API credits).
+
+        force refetches unless the cache is under an hour old (these markets
+        move slowly, and they are the expensive per-match calls)."""
         return self._cached_or_fetch(
             f"event_{event_id}",
             f"/sports/{self.sport_key}/events/{event_id}/odds",
-            "btts,alternate_totals", max_age_hours, force)
+            "btts,alternate_totals", max_age_hours, force,
+            force_floor_hours=1.0)

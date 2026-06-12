@@ -1,3 +1,4 @@
+import math
 from datetime import datetime, timedelta, timezone
 
 import streamlit as st
@@ -75,7 +76,10 @@ client = None
 if api_key:
     client = OddsClient(api_key, cfg["odds"]["sport_key"],
                         tuple(cfg["odds"]["regions"]))
-    events, age = client.get_main_odds(cfg["odds"]["cache_max_age_hours"], force=force)
+    # Never auto-fetch: cached odds of any age are shown; the network is only
+    # hit when 🔄 Refresh is pressed (and even then, not for data fetched
+    # minutes ago — see OddsClient force floors).
+    events, age = client.get_main_odds(math.inf, force=force)
     if events:
         now = datetime.now(timezone.utc)
         horizon = now + timedelta(hours=cfg["odds"]["extra_markets_window_hours"])
@@ -83,12 +87,13 @@ if api_key:
             e, _ = match_event(f, events)
             if e and f["kickoff_utc"] <= horizon:
                 extras[e["id"]], _ = client.get_event_extras(
-                    e["id"], cfg["odds"]["cache_max_age_hours"], force=force)
+                    e["id"], math.inf, force=force)
     if events is None:
-        st.error("Could not fetch odds and no cache exists — Elo-only predictions.")
+        st.info("No market odds loaded yet — tap 🔄 Refresh. "
+                "Until then, picks below are model-only (Elo).")
 
 if age and age > cfg["odds"]["cache_max_age_hours"]:
-    st.warning(f"⚠️ Odds are {age:.0f} hours old (API unreachable — using cache).")
+    st.warning(f"⚠️ Odds are {age:.0f} hours old — tap 🔄 Refresh for current prices.")
 
 if not window_fx:
     st.info("No matches in the selected window.")
