@@ -13,15 +13,23 @@ _CSV_PATH = Path(__file__).parent / "experts.csv"
 def load_experts() -> dict:
     """Return a dict keyed by (normalized_a, normalized_b) -> row dict.
 
-    Returns an empty dict if the CSV is missing or corrupt.
+    Returns an empty dict if the CSV is missing or unreadable at the file level.
+    Corrupt individual rows are skipped with a warning; the remaining valid rows
+    are still returned so one bad cell never silently degrades the whole file.
     Key order is canonical (team_a, team_b) as stored in CSV.
     """
     if not _CSV_PATH.exists():
         return {}
+    experts = {}
     try:
-        experts = {}
-        with open(_CSV_PATH, encoding="utf-8", newline="") as f:
-            for row in csv.DictReader(f):
+        f_handle = open(_CSV_PATH, encoding="utf-8", newline="")
+    except OSError as exc:
+        import warnings
+        warnings.warn(f"experts.csv could not be opened: {exc}", RuntimeWarning, stacklevel=2)
+        return {}
+    with f_handle:
+        for lineno, row in enumerate(csv.DictReader(f_handle), start=2):
+            try:
                 key = (row["team_a"], row["team_b"])
                 experts[key] = {
                     "group": row["group"],
@@ -32,9 +40,15 @@ def load_experts() -> dict:
                     "maldini_a": int(row["maldini_a"]),
                     "maldini_b": int(row["maldini_b"]),
                 }
-        return experts
-    except Exception:
-        return {}
+            except Exception as exc:
+                import warnings
+                warnings.warn(
+                    f"experts.csv line {lineno}: skipping corrupt row "
+                    f"({row!r}): {exc}",
+                    RuntimeWarning,
+                    stacklevel=2,
+                )
+    return experts
 
 
 def picks_for(experts: dict, home: str, away: str) -> dict | None:

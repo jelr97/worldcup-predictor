@@ -59,15 +59,42 @@ def test_load_experts_returns_dict(tmp_path):
 
 
 def test_load_experts_corrupt_file_returns_empty(tmp_path):
+    """A file with completely wrong columns yields {} without crashing."""
     p = tmp_path / "experts.csv"
     p.write_text("definitely,not,valid\ndata,here")
     with patch("data.experts._CSV_PATH", p):
-        # Should silently return {} rather than crash
-        try:
+        import warnings
+        with warnings.catch_warnings(record=True):
+            warnings.simplefilter("always")
             result = load_experts()
-        except Exception:
-            result = {}
-    # Either {} or some partial result — must not crash
+    assert isinstance(result, dict)  # must not crash; {} is the only valid outcome
+
+
+def test_load_experts_single_corrupt_row_skipped_with_warning(tmp_path):
+    """One bad row emits a RuntimeWarning and is skipped; valid rows survive."""
+    good = dict(_SAMPLE_ROW)
+    bad = {
+        "group": "B",
+        "team_a": "Canada",
+        "team_b": "Qatar",
+        "davo_a": "X",  # not an integer
+        "davo_b": 1,
+        "maldini_a": 4,
+        "maldini_b": 1,
+    }
+    p = _write_experts_csv(tmp_path, [good, bad])
+    with patch("data.experts._CSV_PATH", p):
+        import warnings
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter("always")
+            result = load_experts()
+    # Good row must be present
+    assert ("Mexico", "South Africa") in result
+    # Bad row must be absent
+    assert ("Canada", "Qatar") not in result
+    # A RuntimeWarning must have been emitted for the bad row
+    runtime_warnings = [w for w in caught if issubclass(w.category, RuntimeWarning)]
+    assert runtime_warnings, "expected a RuntimeWarning for the corrupt row"
 
 
 # ── picks_for ─────────────────────────────────────────────────────────────────
