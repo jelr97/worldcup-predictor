@@ -182,6 +182,30 @@ def test_score_backward_accumulates_multiple_matches(tmp_path, monkeypatch):
     assert stats["blend"]["winner"] == 1
 
 
+# ── market pick orientation independence ─────────────────────────────────────
+
+def test_market_pick_orientation_independent(sample_event):
+    """_market_pick must return the same pick whether the odds event matches
+    the fixture orientation or is home/away-swapped (identical prices).
+
+    Production-path regression test for the swapped-spread constraint flip
+    in _market_pick: it must use (-line, 1 - p), not (-line, p). With the
+    buggy flip the solver lambdas skew (~1.76 -> ~2.05 for the sample event)
+    and the Pool 1 pick changes, so this test fails.
+    """
+    import copy
+    swapped_event = copy.deepcopy(sample_event)
+    swapped_event["home_team"], swapped_event["away_team"] = (
+        sample_event["away_team"], sample_event["home_team"])
+
+    pick_direct = sm._market_pick(_FIXTURE_A, [sample_event], CFG)
+    pick_swapped = sm._market_pick(_FIXTURE_A, [swapped_event], CFG)
+    assert pick_direct is not None
+    assert pick_direct == pick_swapped, (
+        f"market pick differs across event orientations: "
+        f"{pick_direct} vs {pick_swapped}")
+
+
 # ── helper ───────────────────────────────────────────────────────────────────
 
 def _load_test_experts():

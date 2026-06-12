@@ -39,6 +39,34 @@ def test_swapped_orientation(sample_event):
     assert p.probs["away"] > p.probs["home"]  # Mexico is now the away side
 
 
+def test_swapped_event_spreads_solve_to_mirrored_lambdas(sample_event):
+    """Production-path regression test for the swapped-spread constraint flip.
+
+    The same fixture solved from a direct event and from a home/away-swapped
+    event (identical prices) must yield identical lambdas and pool picks.
+    The swap correction in predict_match must flip the spread line AND
+    complement the cover probability: (-line, 1 - p). With the old buggy
+    (-line, p) the solver is told P(Mexico covers -1.5) ~ 0.63 instead of
+    ~0.37, pushing lam_home from ~1.76 to ~2.05 and changing pool picks --
+    this test fails loudly in that case.
+    """
+    import copy
+    swapped_event = copy.deepcopy(sample_event)
+    swapped_event["home_team"], swapped_event["away_team"] = (
+        sample_event["away_team"], sample_event["home_team"])
+
+    direct = predict_match(FIXTURE, sample_event, None, False, ELO, CFG)
+    swapped = predict_match(FIXTURE, swapped_event, None, True, ELO, CFG)
+
+    assert direct.lam_home == pytest.approx(swapped.lam_home, abs=1e-3), (
+        f"lam_home diverges across orientations: "
+        f"{direct.lam_home:.4f} vs {swapped.lam_home:.4f} -- "
+        f"swapped spread constraint is wrong (probability not complemented?)")
+    assert direct.lam_away == pytest.approx(swapped.lam_away, abs=1e-3)
+    assert direct.pool1["score"] == swapped.pool1["score"]
+    assert direct.pool2["score"] == swapped.pool2["score"]
+
+
 def test_elo_fallback():
     p = predict_match(FIXTURE, None, None, False, ELO, CFG)
     assert p.source == "elo"
