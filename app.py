@@ -5,6 +5,7 @@ import streamlit as st
 
 from config import get_api_key, load_config
 from data.elo import load_ratings
+from data.experts import load_experts
 from data.fixtures import load_fixtures, upcoming
 from data.flags import flag
 from data.odds_api import OddsClient
@@ -64,10 +65,11 @@ with col_btn:
 
 window = _window_map[window_label]
 
-# ── Load fixtures and Elo ─────────────────────────────────────────────────────
+# ── Load fixtures, Elo, and experts ──────────────────────────────────────────
 fixtures = load_fixtures()
 window_fx = upcoming(fixtures, window_hours=window)
 elo = load_ratings()
+experts = load_experts()
 
 # ── Fetch odds ────────────────────────────────────────────────────────────────
 events, age = None, None
@@ -99,7 +101,8 @@ if not window_fx:
     st.info("No matches in the selected window.")
 
 # ── Render match cards ────────────────────────────────────────────────────────
-for p in predict_upcoming(window_fx, events, extras, elo, cfg, odds_age=age):
+for p in predict_upcoming(window_fx, events, extras, elo, cfg, odds_age=age,
+                          experts=experts):
     f = p.fixture
     st.markdown(
         render_card(p, flag(f["home"]), flag(f["away"])),

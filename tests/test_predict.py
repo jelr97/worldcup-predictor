@@ -7,6 +7,7 @@ CFG = {
                          "r32_r16": {"exact": 8, "gd": 5, "winner": 3},
                          "qf_plus": {"exact": 11, "gd": 7, "winner": 5}}},
     "elo": {"disagreement_threshold": 0.15},
+    "ensemble": {"market": 1.0, "experts": 1.0},
 }
 FIXTURE = {"match_id": 1, "stage": "Group A", "home": "Mexico",
            "away": "South Africa", "venue": "Mexico City"}

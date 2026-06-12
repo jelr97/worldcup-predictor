@@ -43,6 +43,9 @@ def render_card(p: MatchPrediction, flag_home: str, flag_away: str) -> str:
     stage  = html.escape(f["stage"])
     kickoff = f["kickoff_et"].strftime("%a %b %d, %I:%M %p ET")
 
+    members = getattr(p, "members", [])
+    expert_picks = getattr(p, "expert_picks", None)
+
     if p.source == "none":
         caption_body = f'{stage} · {kickoff}'
     elif p.source == "elo":
@@ -53,7 +56,19 @@ def render_card(p: MatchPrediction, flag_home: str, flag_away: str) -> str:
         if p.elo_disagrees:
             caption_body += ' · ⚠️ market and Elo disagree'
     else:
-        caption_body = f'{stage} · {kickoff} · {p.books_count} bookmakers'
+        # Build members label: books count only when 'market' is a member.
+        # Fall back to checking source string when members list is empty
+        # (supports MatchPrediction instances created without explicit members).
+        market_present = "market" in members or (not members and "market" in p.source)
+        if market_present:
+            caption_body = f'{stage} · {kickoff} · {p.books_count} bookmakers'
+        else:
+            caption_body = f'{stage} · {kickoff}'
+        # Append expert picks segment when available
+        if expert_picks:
+            davo_esc = html.escape(expert_picks["davo"])
+            maldini_esc = html.escape(expert_picks["maldini"])
+            caption_body += f' · Davo {davo_esc} · Maldini {maldini_esc}'
         if p.elo_disagrees:
             caption_body += ' · ⚠️ market and Elo disagree'
 

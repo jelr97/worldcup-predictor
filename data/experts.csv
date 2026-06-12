@@ -1,0 +1,73 @@
+group,team_a,team_b,davo_a,davo_b,maldini_a,maldini_b
+A,Mexico,South Africa,2,1,2,0
+A,Mexico,Korea Republic,1,2,1,1
+A,Mexico,Czechia,1,0,2,1
+A,South Africa,Korea Republic,0,2,0,1
+A,South Africa,Czechia,0,1,1,3
+A,Korea Republic,Czechia,0,0,1,1
+B,Canada,Bosnia and Herzegovina,1,1,2,2
+B,Canada,Qatar,2,1,4,1
+B,Canada,Switzerland,1,1,0,2
+B,Bosnia and Herzegovina,Qatar,1,0,2,0
+B,Bosnia and Herzegovina,Switzerland,0,1,1,1
+B,Qatar,Switzerland,0,3,0,3
+C,Brazil,Morocco,1,2,1,1
+C,Brazil,Haiti,5,0,3,0
+C,Brazil,Scotland,2,1,1,1
+C,Morocco,Haiti,3,0,3,1
+C,Morocco,Scotland,1,2,1,0
+C,Haiti,Scotland,0,1,0,3
+D,USA,Paraguay,1,1,1,1
+D,USA,Australia,2,0,2,1
+D,USA,Türkiye,1,2,1,3
+D,Paraguay,Australia,3,0,2,0
+D,Paraguay,Türkiye,1,1,1,1
+D,Australia,Türkiye,0,3,0,2
+E,Germany,Curaçao,7,0,5,0
+E,Germany,Côte d'Ivoire,1,1,2,1
+E,Germany,Ecuador,0,1,1,1
+E,Curaçao,Côte d'Ivoire,0,3,0,4
+E,Curaçao,Ecuador,0,3,0,3
+E,Côte d'Ivoire,Ecuador,0,0,1,1
+F,Netherlands,Japan,2,2,2,2
+F,Netherlands,Sweden,1,0,2,1
+F,Netherlands,Tunisia,2,0,3,1
+F,Japan,Sweden,3,2,2,1
+F,Japan,Tunisia,3,0,3,0
+F,Sweden,Tunisia,3,1,1,1
+G,Belgium,Egypt,3,1,0,0
+G,Belgium,IR Iran,1,0,2,0
+G,Belgium,New Zealand,2,0,4,0
+G,Egypt,IR Iran,1,1,1,1
+G,Egypt,New Zealand,2,0,1,0
+G,IR Iran,New Zealand,0,0,1,0
+H,Spain,Cabo Verde,6,0,5,1
+H,Spain,Saudi Arabia,4,0,3,0
+H,Spain,Uruguay,2,0,1,1
+H,Cabo Verde,Saudi Arabia,0,3,1,2
+H,Cabo Verde,Uruguay,0,1,0,3
+H,Saudi Arabia,Uruguay,0,1,1,1
+I,France,Senegal,0,1,2,1
+I,France,Iraq,7,0,3,0
+I,France,Norway,2,1,3,1
+I,Senegal,Iraq,2,1,3,1
+I,Senegal,Norway,2,1,2,2
+I,Iraq,Norway,0,4,0,2
+J,Argentina,Algeria,2,2,1,0
+J,Argentina,Austria,2,0,1,1
+J,Argentina,Jordan,5,0,4,0
+J,Algeria,Austria,1,1,1,2
+J,Algeria,Jordan,2,0,2,0
+J,Austria,Jordan,2,0,3,0
+K,Portugal,Congo DR,5,0,3,0
+K,Portugal,Uzbekistan,2,0,3,0
+K,Portugal,Colombia,2,2,2,1
+K,Congo DR,Uzbekistan,1,0,0,0
+K,Congo DR,Colombia,1,4,1,3
+K,Uzbekistan,Colombia,0,3,1,3
+L,England,Croatia,1,0,1,1
+L,England,Ghana,1,0,2,0
+L,England,Panama,6,2,4,0
+L,Croatia,Ghana,1,1,1,1
+L,Croatia,Panama,1,0,1,0
+L,Ghana,Panama,2,0,2,1
