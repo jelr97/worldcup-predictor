@@ -27,6 +27,8 @@ class MatchPrediction:
     note: str = ""
     members: list = field(default_factory=list)   # e.g. ['market', 'experts']
     expert_picks: dict | None = None              # {'davo': '2-1', 'maldini': '2-0'}
+    market_pool1: dict | None = None              # bookmaker-only Pool 1 pick
+    market_pool2: dict | None = None              # bookmaker-only Pool 2 pick
 
 
 def match_event(fixture, events):
@@ -116,6 +118,10 @@ def predict_match(fixture, event, extras, swapped, elo_ratings, cfg,
             pred.lam_home, pred.lam_away = lh, la
             pred.books_count = constraints.get("books_count", 0)
             market_matrix = score_matrix(lh, la)
+            # Bookmaker-only picks, kept alongside the blended picks so the UI
+            # can show what the market alone says vs. the market+experts blend.
+            mp = picks.top_picks(market_matrix, pts)
+            pred.market_pool1, pred.market_pool2 = mp["pool1"], mp["pool2"]
 
     # ── experts matrix ────────────────────────────────────────────────────────
     exp_matrix = None

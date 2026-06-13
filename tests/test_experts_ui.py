@@ -120,6 +120,57 @@ def test_bookmakers_shown_market_only():
     assert "7 bookmakers" in out
 
 
+# ── bookmaker-only picks chip ─────────────────────────────────────────────────
+
+def test_bookies_chip_shown_when_blended():
+    """Market+experts blend shows a BOOKIES chip with market-only picks."""
+    p = _make_pred(
+        source="market+experts",
+        members=["market", "experts"],
+        market_pool1={"score": "1-0"},
+        market_pool2={"score": "2-1"},
+    )
+    out = render_card(p, "", "")
+    assert "BOOKIES 1-0 / 2-1" in out
+
+
+def test_bookies_chip_absent_when_market_only():
+    """Market-only: the POOL badges already are the bookmaker pick, no chip."""
+    p = _make_pred(
+        source="market",
+        members=["market"],
+        market_pool1={"score": "1-0"},
+        market_pool2={"score": "2-0"},
+    )
+    out = render_card(p, "", "")
+    assert "BOOKIES" not in out
+
+
+def test_bookies_chip_absent_when_experts_only():
+    """Experts-only: no market picks, so no BOOKIES chip."""
+    p = _make_pred(
+        source="experts",
+        members=["experts"],
+        probs={"home": 0.60, "draw": 0.25, "away": 0.15},
+        market_pool1=None,
+        market_pool2=None,
+    )
+    out = render_card(p, "", "")
+    assert "BOOKIES" not in out
+
+
+def test_bookies_chip_xss_escaped():
+    p = _make_pred(
+        source="market+experts",
+        members=["market", "experts"],
+        market_pool1={"score": "<script>"},
+        market_pool2={"score": "<b>0-0</b>"},
+    )
+    out = render_card(p, "", "")
+    assert "<script>" not in out
+    assert "&lt;script&gt;" in out
+
+
 # ── elo source: no expert caption ────────────────────────────────────────────
 
 def test_elo_source_no_expert_caption():

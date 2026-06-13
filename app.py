@@ -46,6 +46,9 @@ _odds_key = (get_api_key()
              or st.text_input("The Odds API key", type="password"))
 api_key = _odds_key if _odds_key else None
 
+# ── Top status bar: quota + last update (always visible, filled after fetch) ───
+status_ph = st.empty()
+
 # ── Control row: window radio + refresh button ────────────────────────────────
 _default_hours = cfg["display"]["upcoming_window_hours"]
 _window_map = {"Today": 24, "2 days": 48, "4 days": 96}
@@ -94,6 +97,20 @@ if api_key:
         st.info("No market odds loaded yet — tap 🔄 Refresh. "
                 "Until then, picks below are model-only (Elo).")
 
+# ── Fill the top status bar now that quota/age are known ──────────────────────
+_status_bits = []
+_quota = client.quota_remaining if client is not None else None
+if _quota is not None:
+    _status_bits.append(f"Quota: {_quota}")
+_status_bits.append(f"Last update: {age:.1f}h ago" if age is not None
+                    else "Last update: —")
+status_ph.markdown(
+    "<div style='font-size:16px;font-weight:600;color:#444;margin:2px 0 12px;'>"
+    + " · ".join(_status_bits)
+    + "</div>",
+    unsafe_allow_html=True,
+)
+
 if age and age > cfg["odds"]["cache_max_age_hours"]:
     st.warning(f"⚠️ Odds are {age:.0f} hours old — tap 🔄 Refresh for current prices.")
 
@@ -114,13 +131,3 @@ for p in predict_upcoming(window_fx, events, extras, elo, cfg, odds_age=age,
               "Expected points": round(r["ep"], 3)} for r in p.ep_table],
             hide_index=True,
         )
-
-# ── Footer ────────────────────────────────────────────────────────────────────
-if client is not None:
-    parts = []
-    if client.quota_remaining is not None:
-        parts.append(f"quota: {client.quota_remaining}")
-    if age is not None:
-        parts.append(f"odds {age:.1f}h old")
-    if parts:
-        st.caption(" · ".join(parts))
