@@ -122,8 +122,8 @@ def test_bookmakers_shown_market_only():
 
 # ── bookmaker-only picks chip ─────────────────────────────────────────────────
 
-def test_bookies_chip_shown_when_blended():
-    """Market+experts blend shows a BOOKIES chip with market-only picks."""
+def test_bookies_row_shown_when_blended():
+    """Market+experts blend shows a BOOKMAKERS ONLY row with market-only picks."""
     p = _make_pred(
         source="market+experts",
         members=["market", "experts"],
@@ -131,11 +131,12 @@ def test_bookies_chip_shown_when_blended():
         market_pool2={"score": "2-1"},
     )
     out = render_card(p, "", "")
-    assert "BOOKIES 1-0 / 2-1" in out
+    assert "BOOKMAKERS ONLY" in out
+    assert "1-0" in out and "2-1" in out
 
 
-def test_bookies_chip_absent_when_market_only():
-    """Market-only: the POOL badges already are the bookmaker pick, no chip."""
+def test_bookies_row_shown_when_market_only():
+    """Market-only: still labelled explicitly so the bookmaker pick is findable."""
     p = _make_pred(
         source="market",
         members=["market"],
@@ -143,11 +144,11 @@ def test_bookies_chip_absent_when_market_only():
         market_pool2={"score": "2-0"},
     )
     out = render_card(p, "", "")
-    assert "BOOKIES" not in out
+    assert "BOOKMAKERS ONLY" in out
 
 
-def test_bookies_chip_absent_when_experts_only():
-    """Experts-only: no market picks, so no BOOKIES chip."""
+def test_bookies_row_absent_when_experts_only():
+    """Experts-only: no market picks, so no BOOKMAKERS ONLY row."""
     p = _make_pred(
         source="experts",
         members=["experts"],
@@ -156,10 +157,10 @@ def test_bookies_chip_absent_when_experts_only():
         market_pool2=None,
     )
     out = render_card(p, "", "")
-    assert "BOOKIES" not in out
+    assert "BOOKMAKERS ONLY" not in out
 
 
-def test_bookies_chip_xss_escaped():
+def test_bookies_row_xss_escaped():
     p = _make_pred(
         source="market+experts",
         members=["market", "experts"],

@@ -124,27 +124,33 @@ def render_card(p: MatchPrediction, flag_home: str, flag_away: str) -> str:
             f'</div>'
         )
 
-    # ── bookmaker-only picks chip row ─────────────────────────────────────────
-    # The POOL badges above are the market+experts blend. When experts are also
-    # blended in, surface what the bookmakers alone would pick so the two can be
-    # compared. (When market is the only member the badges already are the
-    # bookmaker pick, so this row is skipped to avoid duplication.)
-    bookies_chip_row = ""
+    # ── bookmaker-only picks row ──────────────────────────────────────────────
+    # The POOL badges above are the market+experts blend. This row always shows
+    # what the bookmakers ALONE would pick whenever market odds are present, so
+    # it can be compared against the blended badges (and against the experts).
+    bookies_row = ""
     market_pool1 = getattr(p, "market_pool1", None)
     market_pool2 = getattr(p, "market_pool2", None)
-    if market_pool1 is not None and "market" in members and "experts" in members:
+    if market_pool1 is not None and "market" in members:
         b1 = html.escape(str(market_pool1["score"]))
-        bookies_text = f"BOOKIES {b1}"
-        if market_pool2 is not None:
-            bookies_text += f" / {html.escape(str(market_pool2['score']))}"
-        bookies_chip_style = (
-            "display:inline-block;font-size:13px;padding:2px 8px;"
-            "border:1px solid #1a5fb4;border-radius:10px;margin-right:6px;"
-            "color:#1a5fb4;background:none;"
+        b2 = html.escape(str(market_pool2["score"])) if market_pool2 else ""
+        bookies_label_style = (
+            "font-size:11px;font-weight:700;color:#1a5fb4;"
+            "letter-spacing:.3px;margin-right:8px;"
         )
-        bookies_chip_row = (
-            f'<div style="margin-bottom:8px;">'
-            f'<span style="{bookies_chip_style}">📊 {bookies_text}</span>'
+        bookies_badge_style = (
+            "display:inline-block;font-size:15px;font-weight:700;"
+            "padding:2px 10px;border:1px solid #1a5fb4;border-radius:10px;"
+            "margin-right:6px;color:#1a5fb4;background:#eef3fc;"
+        )
+        scores = f'<span style="{bookies_badge_style}">{b1}</span>'
+        if b2:
+            scores += f'<span style="{bookies_badge_style}">{b2}</span>'
+        bookies_row = (
+            f'<div style="display:flex;align-items:center;flex-wrap:wrap;'
+            f'margin-bottom:10px;">'
+            f'<span style="{bookies_label_style}">📊 BOOKMAKERS ONLY</span>'
+            f'{scores}'
             f'</div>'
         )
 
@@ -182,7 +188,7 @@ def render_card(p: MatchPrediction, flag_home: str, flag_away: str) -> str:
         f'</div>'
     )
 
-    body = title + caption + badges + expert_chip_row + bookies_chip_row + bar
+    body = title + caption + badges + bookies_row + expert_chip_row + bar
     return _wrap_card(body)
 
 
